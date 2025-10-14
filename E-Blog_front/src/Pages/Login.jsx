@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 export default function Login() {
     return (
-        <div className="flex h-[700px] w-full">
-            <div className="w-full hidden md:inline-block">
-                <img className="h-full" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png" alt="leftSideImage" />
+        <div className="flex h-screen w-full">
+            <div className="w-full hidden md:flex md:items-center md:justify-center">
+                <img className="h-full w-full object-cover" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png" alt="leftSideImage" />
             </div>
         
             <div className="w-full flex flex-col items-center justify-center">
@@ -45,10 +45,10 @@ export default function Login() {
                         <a className="text-sm underline" href="#">Forgot password?</a>
                     </div>
         
-                    <Link to='/signup'><button type="submit" className="mt-8 w-96 h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity">
+                    <button type="submit" className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity">
                         Login
-                    </button></Link>
-                    <p className="text-gray-500/90 text-sm mt-4">Don’t have an account? <a className="text-indigo-400 hover:underline" href="#">Sign up</a></p>
+                    </button>
+                    <p className="text-gray-500/90 text-sm mt-4">Don’t have an account?<Link className="text-indigo-400 hover:underline" to="/signup">Sign up</Link></p>
                 </form>
             </div>
         </div>
