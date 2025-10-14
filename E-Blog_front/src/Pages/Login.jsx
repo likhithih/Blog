@@ -1,15 +1,17 @@
-export default function Example() {
+import { Link } from "react-router-dom";
+
+export default function Login() {
     return (
-        <div className="flex h-[700px] w-full">
-            <div className="w-full hidden md:inline-block">
-                <img className="h-full" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png" alt="leftSideImage" />
+        <div className="flex h-screen w-full">
+            <div className="w-full hidden md:flex md:items-center md:justify-center">
+                <img className="h-full w-full object-cover" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png" alt="leftSideImage" />
             </div>
         
             <div className="w-full flex flex-col items-center justify-center">
         
                 <form className="md:w-96 w-80 flex flex-col items-center justify-center">
-                    <h2 className="text-4xl text-gray-900 font-medium">Sign in</h2>
-                    <p className="text-sm text-gray-500/90 mt-3">Welcome back! Please sign in to continue</p>
+                    <h2 className="text-4xl text-gray-900 font-medium">Login </h2>
+                    <p className="text-sm text-gray-500/90 mt-3">Welcome back! Please Login to continue</p>
         
                     <button type="button" className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full">
                         <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="googleLogo" />
@@ -46,7 +48,7 @@ export default function Example() {
                     <button type="submit" className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity">
                         Login
                     </button>
-                    <p className="text-gray-500/90 text-sm mt-4">Don’t have an account? <a className="text-indigo-400 hover:underline" href="#">Sign up</a></p>
+                    <p className="text-gray-500/90 text-sm mt-4">Don’t have an account?<Link className="text-indigo-400 hover:underline" to="/signup">Sign up</Link></p>
                 </form>
             </div>
         </div>
