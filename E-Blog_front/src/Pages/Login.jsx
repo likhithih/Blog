@@ -4,7 +4,7 @@ export default function Login() {
     return (
         <div className="flex h-screen w-full">
             <div className="w-full hidden md:flex md:items-center md:justify-center">
-                <img className="h-full w-full object-cover" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/leftSideImage.png" alt="leftSideImage" />
+                <img className="h-full w-full object-cover" src="https://cdn.pixabay.com/photo/2022/07/08/05/48/blogging-7308532_1280.png" alt="leftSideImage" />
             </div>
         
             <div className="w-full flex flex-col items-center justify-center">
