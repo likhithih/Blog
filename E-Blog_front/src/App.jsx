@@ -14,28 +14,8 @@ import './App.css'
 function App() {
   return (
     <>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <Navbar/>
-      <HeroSection/>
-   
-        
-    <div>
-      <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Login/>}/>
-        <Route path='/signup' element={<Signup/>}/>
-      </Routes>
-      </BrowserRouter>
-       
-    </div>
-=======
-      {/* <Navbar />
-      <HeroSection /> */}
-=======
       <Navbar />
       <HeroSection />
->>>>>>> 885a08d8df0cabfce3bc4d9fbf5ec695cc05bc1c
       <div>
         <BrowserRouter>
           <Routes>
@@ -43,7 +23,7 @@ function App() {
             <Route path='/signup' element={<Signup />} />
           </Routes>
         </BrowserRouter>
->>>>>>> 5493ad21bc6eac2cf1af821f543a5e677a60343b
+ </div>
 
       </>       
   )
