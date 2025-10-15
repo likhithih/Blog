@@ -7,15 +7,9 @@ import Navbar from './Components/Navbar'
 import HeroSection from './Components/HeroSection'
 import "./App.css"
 
-
-import './App.css'
- b0acc7bc1cfd17f2555035dfaf7d71010e29f3de
-
 function App() {
   return (
     <>
-      <Navbar />
-      <HeroSection />
       <div>
         <BrowserRouter>
           <Routes>
