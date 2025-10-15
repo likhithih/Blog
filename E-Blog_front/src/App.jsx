@@ -1,28 +1,30 @@
-import React from "react";
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./Components/Navbar";
-import HeroSection from "./Components/HeroSection";
-import Login from "./Pages/Login";
-import Signup from "./Pages/Signup";
-import Card from "./Components/Card";
+import React from 'react'
+import Login from './Pages/Login'
+import Signup from './Pages/Signup'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import './App.css'
+import Navbar from './Components/Nav_bl'
+import HeroSection from './Components/HeroSection'
+import Card from './Components/Card'
+import Nav_bl from './Components/Nav_bl'
+import Landing from './Pages/Landing'
 
 function App() {
   return (
     <>
       <div>
-        <Navbar />
-        <HeroSection />
-        <Card />
-      </div>
-      <div>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </div>
-    </>
-  );
+        <Landing/>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+          </Routes>
+        </BrowserRouter>
+ </div>
+
+      </>       
+  )
 }
+   
 
 export default App;

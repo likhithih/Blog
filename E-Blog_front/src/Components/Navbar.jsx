@@ -8,7 +8,7 @@ const Navbar = () => {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img src={logo} alt="" className="h-15 w-55" />
+              <img src={logo} alt="" className="h-15 w-55 logo-transition" />
             </a>
           </div>
           <div className="flex lg:hidden">
