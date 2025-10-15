@@ -10,8 +10,8 @@ import './App.css'
 function App() {
   return (
     <>
-      <Navbar />
-      <HeroSection />
+      {/* <Navbar />
+      <HeroSection /> */}
       <div>
         <BrowserRouter>
           <Routes>
