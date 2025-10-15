@@ -22,13 +22,13 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     }
-});
+}, { timestamps: true });
 
-// Update the updatedAt field before saving
-userSchema.pre('save', function(next) {
-    this.updatedAt = Date.now();
-    next();
-});
+// // Update the updatedAt field before saving
+// userSchema.pre('save', function (next) {
+//     this.updatedAt = Date.now();
+//     next();
+// });
 
 const User = mongoose.model('User', userSchema);
 

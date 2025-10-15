@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
                 username: user.username,
                 email: user.email
             }
-        });
+        }); 
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Incorrect password' });
         }
 
         // Create JWT token
