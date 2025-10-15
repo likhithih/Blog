@@ -1,4 +1,5 @@
 import logo from "../assets/LOGO_blog.png";
+import Dropdown from "./Dropdown";
 
 const Nav_bl = () => {
   return (
@@ -14,7 +15,10 @@ const Nav_bl = () => {
         <div className="flex-1 flex justify-around items-center ml-6 bg-white/0 rounded-md px-4 py-2">
 
           <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">About</a>
-          <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Blogs</a>
+          <Dropdown
+            name="Blog"
+            items={["Web", "AI", "Fullstack", "Testing"]}
+          />
           <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Log in</a>
           <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Sign up</a>
         </div>
