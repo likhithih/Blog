@@ -22,3 +22,5 @@ src/App.jsx
 *.njsproj
 *.sln
 *.sw?
+src/App.jsx
+

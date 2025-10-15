@@ -7,7 +7,7 @@ export default function Signup() {
             {/* LEFT SIDE IMAGE */}
             <div className="w-full hidden md:flex md:items-center md:justify-center relative">
                 <img 
-                    className="h-200 w-full object-cover relative left-36 top-1" 
+                    className="h-145 w-full object-contain relative left-3 top-1" 
                     src="https://cdn.pixabay.com/photo/2020/04/03/06/35/work-4997565_1280.png" 
                     alt="leftSideImage" 
                 />
