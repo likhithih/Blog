@@ -15,6 +15,7 @@ function App() {
   return (
     <>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <Navbar/>
       <HeroSection/>
    
@@ -31,6 +32,10 @@ function App() {
 =======
       {/* <Navbar />
       <HeroSection /> */}
+=======
+      <Navbar />
+      <HeroSection />
+>>>>>>> 885a08d8df0cabfce3bc4d9fbf5ec695cc05bc1c
       <div>
         <BrowserRouter>
           <Routes>
