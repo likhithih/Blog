@@ -4,7 +4,12 @@ import User from "../models/User.js";
 
 export const signup = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, password, confirmPassword } = req.body;
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: 'Passwords do not match' });
+        }
 
         // Check if user already exists
         const existingUser = await User.findOne({ $or: [{ email }, { username }] });
@@ -20,7 +25,8 @@ export const signup = async (req, res) => {
         const user = new User({
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            confirmPassword: hashedPassword
         });
 
         await user.save();
@@ -40,7 +46,7 @@ export const signup = async (req, res) => {
                 username: user.username,
                 email: user.email
             }
-        }); 
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
