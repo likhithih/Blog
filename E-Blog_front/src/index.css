@@ -1,0 +1,15 @@
+.logo-transition {
+  animation: logoScale 1s ease-in-out;
+}
+
+@keyframes logoScale {
+  0% {
+    transform: scale(1) translateX(300);
+  }
+  50% {
+    transform: scale(1.7) translateX(300);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
