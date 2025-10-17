@@ -1,9 +1,10 @@
 import React from "react";
 
+
 const features = [
   {
-    title: "Real-Time Analytics",
-    desc: "Get instant insights into your finances with live dashboards.",
+    title: "Easy Content Management",
+    desc: "Create, edit, and publish posts effortlessly. Organize your content with categories and tags..",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6 stroke-violet-600">
         <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
@@ -14,8 +15,8 @@ const features = [
     hoverBorder: "border-violet-300",
   },
   {
-    title: "Bank-Grade Security",
-    desc: "End-to-end encryption, 2FA, compliance with GDPR standards.",
+    title: "User Engagement Tools",
+    desc: "Enable comments, social sharing, and subscriptions to connect with your audience.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6 stroke-green-600">
         <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -26,8 +27,8 @@ const features = [
     hoverBorder: "border-green-300",
   },
   {
-    title: "Customizable Reports",
-    desc: "Export professional, audit-ready financial reports for tax or internal review.",
+    title: "SEO & Navigation Ready",
+    desc: "Boost discoverability with search, clean URLs, and responsive layouts for any device.",
     icon: (
       <svg className="size-6 stroke-orange-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 15V3" />
@@ -44,11 +45,18 @@ const LandingBody = () => {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-        <img
-          className="max-w-2xl w-full xl:-ml-32"
-          src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/group-image-1.png"
-          alt="Feature illustration"
-        />
+        <div className="relative">
+          <img
+            className="max-w-2xl w-full xl:-ml-32 rounded-lg"
+            src="/public/Blog creating back Cover.jpg"
+            alt="Feature illustration"
+          />
+          <img
+            className="absolute top-40 left-60 max-w-2xl w-full xl:-ml-32 rounded-lg"
+            src="/public/Write Back Cover.jpg"
+            alt="Overlapping illustration"
+          />
+        </div>
         <div className="flex flex-col gap-6 px-4 md:px-0">
           {features.map((feature, idx) => (
             <div
