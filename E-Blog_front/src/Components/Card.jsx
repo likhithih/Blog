@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Footer from './Footer';
 
 export default function Card() {
     const cards = [
@@ -23,12 +22,12 @@ export default function Card() {
             title: "Color Psychology in UI: How to Choose the Right Palette",
             category: "UI/UX design"
         },
-         {
+        {
             img: "https://images.unsplash.com/photo-1714974528646-ea024a3db7a7?w=1200&h=800&auto=format&fit=crop&q=60",
             title: "Color Psychology in UI: How to Choose the Right Palette",
             category: "UI/UX design"
         },
-         {
+        {
             img: "https://images.unsplash.com/photo-1714974528646-ea024a3db7a7?w=1200&h=800&auto=format&fit=crop&q=60",
             title: "Color Psychology in UI: How to Choose the Right Palette",
             category: "UI/UX design"
@@ -83,7 +82,7 @@ export default function Card() {
             <h1 className="text-3xl font-semibold text-center mx-auto">Latest Blog</h1>
             <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">
                 Welcome to a space where ideas turn into stories and stories spark inspiration.
-Here, we explore creativity, learning, and life sharing thoughts that motivate, educate, and connect people across different journeys.
+                Here, we explore creativity, learning, and life sharing thoughts that motivate, educate, and connect people across different journeys.
             </p>
 
             <div className="pt-12 pb-20 h-96">
@@ -99,7 +98,6 @@ Here, we explore creativity, learning, and life sharing thoughts that motivate, 
                     </div>
                 </div>
             </div>
-            <Footer/>
         </>
     );
 };

@@ -1,30 +1,37 @@
-import React from 'react'
+import './App.css'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css'
-import Navbar from './Components/Nav_bl'
-import HeroSection from './Components/HeroSection'
-import Card from './Components/Card'
+import Landing from './Components/HeroSection'
 import Nav_bl from './Components/Nav_bl'
-import Landing from './Pages/Landing'
+import Home from './Pages/Home'
+import 'react-toastify/dist/ReactToastify.css';
+import CreateBlog from './Pages/CreateBlog'
+import BlogSction from './Components/BlogSection'
+import About from './Pages/About'
+import PageNotFound from './Pages/PageNotFound'
+import BlogPost from './Pages/BlogPost'
 
 function App() {
   return (
     <>
       <div>
-        <Landing/>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Login />} />
+            <Route path='/' element={<><Nav_bl /><Landing /></>} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/create' element={<CreateBlog />} />
+            <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
+            <Route path='/blog' element={<BlogSction />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/post' element={<BlogPost />} />
+            <Route path='*' element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
- </div>
-
-      </>       
+      </div>
+    </>
   )
 }
-   
 
 export default App;

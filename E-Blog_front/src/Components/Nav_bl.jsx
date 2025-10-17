@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/LOGO_blog.png";
 import Dropdown from "./Dropdown";
 
 const Nav_bl = () => {
   return (
-   <header className="bg-white/0 backdrop-blur-md fixed w-full z-50 shadow-md">
+    <header className="bg-white/0 backdrop-blur-md fixed w-full z-50 shadow-md">
 
       <nav className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center h-16">
         {/* Logo at the far left */}
@@ -17,10 +18,10 @@ const Nav_bl = () => {
           <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">About</a>
           <Dropdown
             name="Blog"
-            items={["Web", "AI", "Fullstack", "Testing"]}
+            items={["Web", "AI", "Fullstack", "Testing", "Other"]}
           />
-          <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Log in</a>
-          <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Sign up</a>
+          <Link to="/login" className="text-indigo-600 font-semibold border border-indigo-600 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded transition-colors">Log in</Link>
+          <Link to="/signup" className="bg-indigo-700 text-white font-semibold hover:bg-indigo-400 px-4 py-2 rounded transition-colors">Sign up</Link>
         </div>
       </nav>
     </header>

@@ -1,9 +1,10 @@
-import React from "react";
 import Card from "../Components/Card";
-import Nav_bl from "../Components/Nav_bl";
 import HeroSection from "../Components/HeroSection";
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
+import ReviewSection from "../Components/ReviewSection";
 
-function Landing() {
+function Home() {
   return (
     <div className="relative min-h-screen bg-white overflow-hidden">
       {/* Multiple animated blobs */}
@@ -16,9 +17,11 @@ function Landing() {
 
       {/* Page content */}
       <div className="relative z-10">
-        <Nav_bl />
+        <Navbar />
         <HeroSection />
         <Card />
+        <ReviewSection />
+        <Footer />
       </div>
 
       {/* Blob animations */}
@@ -47,4 +50,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default Home;
