@@ -27,8 +27,9 @@ export default function Login() {
 
             if (response.status === 200) {
                 toast.success('Login successful!');
-                // Store user data in localStorage
+                // Store user data and token in localStorage
                 localStorage.setItem('user', JSON.stringify(response.data.user));
+                localStorage.setItem('token', response.data.token);
                 // Redirect to home or dashboard
                 setTimeout(() => { navigate('/home') }, 2000)
             }

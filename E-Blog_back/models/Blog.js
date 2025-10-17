@@ -6,19 +6,25 @@ const blogSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    content: {
-        type: String,
-        required: true
-    },
     category: {
         type: String,
         required: true,
-        enum: ['Web', 'AI', 'Fullstack', 'Testing', 'Other']
+        enum: ['Web', 'AI', 'Fullstack', 'Testing', 'Marketing', 'Sales', 'Business']
+    },
+    image: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    description: {
+        type: String,
+        required: true,
+        trim: true
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: false // Optional for anonymous blogs
+        required: true
     },
     createdAt: {
         type: Date,
