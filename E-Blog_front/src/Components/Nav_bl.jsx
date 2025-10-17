@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/LOGO_blog.png";
 import Dropdown from "./Dropdown";
 
@@ -19,8 +20,8 @@ const Nav_bl = () => {
             name="Blog"
             items={["Web", "AI", "Fullstack", "Testing"]}
           />
-          <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Log in</a>
-          <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Sign up</a>
+          < Link to='/login' className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Log in</Link>
+          <Link to='/signup' className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">Sign up</Link>
         </div>
       </nav>
     </header>
