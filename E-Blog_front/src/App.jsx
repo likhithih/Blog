@@ -2,7 +2,6 @@ import './App.css'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Landing from './Components/HeroSection'
 import Nav_bl from './Components/Nav_bl'
 import Home from './Pages/Home'
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,14 +10,18 @@ import BlogSction from './Components/BlogSection'
 import About from './Pages/About'
 import PageNotFound from './Pages/PageNotFound'
 import BlogPost from './Pages/BlogPost'
+import HeroSection from './Components/HeroSection'
+import LandingBody from './Components/LandingBody'
+
+
 
 function App() {
   return (
     <>
       <div>
-        <BrowserRouter>
+        {/* <BrowserRouter>
           <Routes>
-            <Route path='/' element={<><Nav_bl /><Landing /></>} />
+            <Route path='/' element={<><Nav_bl /><HeroSection /></>} />
             <Route path='/home' element={<Home />} />
             <Route path='/create' element={<CreateBlog />} />
             <Route path='/login' element={<Login />} />
@@ -28,7 +31,9 @@ function App() {
             <Route path='/post' element={<BlogPost />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
-        </BrowserRouter>
+        </BrowserRouter> */}
+        <LandingBody/>
+      
       </div>
     </>
   )

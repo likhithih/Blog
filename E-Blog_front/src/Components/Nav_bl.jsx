@@ -14,13 +14,8 @@ const Nav_bl = () => {
 
         {/* Links and auth spaced evenly */}
         <div className="flex-1 flex justify-around items-center ml-6 bg-white/0 rounded-md px-4 py-2">
-
-          <a href="#" className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">About</a>
-          <Dropdown
-            name="Blog"
-            items={["Web", "AI", "Fullstack", "Testing", "Other"]}
-          />
-          <Link to="/login" className="text-indigo-600 font-semibold border border-indigo-600 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded transition-colors">Log in</Link>
+          <Link to={'/about'} className="text-gray-800 font-semibold hover:bg-gray-200 px-4 py-2 rounded">About</Link>
+          <Link to="/login" className=" bg-indigo-700 text-white font-semibold border border-indigo-600 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded transition-colors">Log in</Link>
           <Link to="/signup" className="bg-indigo-700 text-white font-semibold hover:bg-indigo-400 px-4 py-2 rounded transition-colors">Sign up</Link>
         </div>
       </nav>
