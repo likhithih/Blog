@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ export default function Signup() {
         password: '',
         confirmPassword: ''
     });
-    const [error, setError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -19,32 +20,41 @@ export default function Signup() {
             ...formData,
             [e.target.name]: e.target.value
         });
+        if (e.target.name === 'username') {
+            setUsernameError('');
+        }
     };
+
+
+    const generateErrorToast = (err) => {
+        toast.error(err)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
+
+        if (formData.username.length < 3) {
+            setUsernameError('Username must have more than 3 characters');
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await axios.post('http://localhost:4000/signup', formData);
 
             if (response.status === 201) {
                 toast.success('User created successfully!');
-                // Store token in localStorage
-                localStorage.setItem('token', response.data.token);
                 // Redirect to home or dashboard
-                navigate('/');
+                setTimeout(() => { navigate('/login') }, 2000)
             }
         } catch (error) {
             if (error.response) {
                 const errorMessage = error.response.data.message || 'Signup failed';
-                setError(errorMessage);
-                toast.error(errorMessage);
+                generateErrorToast(errorMessage);
             } else {
                 const networkError = 'Network error. Please try again.';
-                setError(networkError);
-                toast.error(networkError);
+                generateErrorToast(networkError);
             }
         } finally {
             setLoading(false);
@@ -69,7 +79,6 @@ export default function Signup() {
                     <h2 className="text-4xl text-gray-900 font-medium">Signup</h2>
                     <p className="text-sm text-gray-500/90 mt-3">Create your account! Please sign up to continue</p>
 
-                    {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
 
                     <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2 mt-8">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,6 +94,7 @@ export default function Signup() {
                             required
                         />
                     </div>
+                    {usernameError && <p className="text-red-500 text-sm mt-1">{usernameError}</p>}
 
                     <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2 mt-6">
                         <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -143,6 +153,7 @@ export default function Signup() {
                         Already have an account? <Link to="/login" className="text-indigo-500">Login</Link>
                     </p>
                 </form>
+                <ToastContainer />
             </div>
         </div>
     );

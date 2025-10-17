@@ -31,16 +31,8 @@ export const signup = async (req, res) => {
 
         await user.save();
 
-        // Create JWT token
-        const token = jwt.sign(
-            { userId: user._id, username: user.username },
-            process.env.JWT_SECRET || 'your-secret-key',
-            { expiresIn: '7d' }
-        );
-
         res.status(201).json({
             message: 'User created successfully',
-            token,
             user: {
                 id: user._id,
                 username: user.username,
@@ -69,20 +61,13 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: 'Incorrect password' });
         }
 
-        // Create JWT token
-        const token = jwt.sign(
-            { userId: user._id, username: user.username },
-            process.env.JWT_SECRET || 'your-secret-key',
-            { expiresIn: '7d' }
-        );
-
         res.json({
             message: 'Login successful',
-            token,
             user: {
                 id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                profileImage: user.profileImage
             }
         });
     } catch (error) {

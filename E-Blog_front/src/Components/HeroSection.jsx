@@ -15,38 +15,39 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="relative isolate px-6 pt-14 lg:px-8 overflow-hidden">
-      {/* Floating background shapes */}
-      <div className="absolute top-[-10rem] left-1/2 w-[36rem] h-[36rem] bg-blue-200 opacity-20 rounded-full -translate-x-1/2 animate-pulse-slow blur-3xl"></div>
-      <div className="absolute bottom-[-12rem] right-0 w-[28rem] h-[28rem] bg-pink-200 opacity-20 rounded-full animate-pulse-slow blur-3xl"></div>
+    <>
+      <div className="relative isolate px-6 pt-14 lg:px-8 overflow-hidden">
+        {/* Floating background shapes */}
+        <div className="absolute top-[-10rem] left-1/2 w-[36rem] h-[36rem] bg-blue-200 opacity-20 rounded-full -translate-x-1/2 animate-pulse-slow blur-3xl"></div>
+        <div className="absolute bottom-[-12rem] right-0 w-[28rem] h-[28rem] bg-pink-200 opacity-20 rounded-full animate-pulse-slow blur-3xl"></div>
 
-      <div className="mx-auto max-w-2xl mt-16 pt-16 pb-8 sm:mt-24 sm:pt-24 sm:pb-12 lg:mt-32 lg:pt-32 lg:pb-16 text-center">
-        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-gray-900 opacity-0 animate-fadeSlide">
-          {text}
-        </h1>
+        <div className="mx-auto max-w-2xl pt-2 pb-8 sm:mt-24 sm:pt-24 sm:pb-12 lg:mt-20 lg:pt-15 lg:pb-22 text-center">
+          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-gray-900 opacity-0 animate-fadeSlide">
+            {text}
+          </h1>
 
-        <p className="mt-8 text-lg sm:text-xl text-gray-500 opacity-0 animate-fadeSlide delay-200">
-          A blog built for curious minds uncovering the trends, tools, and technologies shaping tomorrow’s digital world.
-        </p>
+          <p className="mt-8 text-lg sm:text-xl text-gray-500 opacity-0 animate-fadeSlide delay-200">
+            A blog built for curious minds uncovering the trends, tools, and technologies shaping tomorrow’s digital world.
+          </p>
 
-        <div className="mt-8 flex justify-center gap-4 opacity-0 animate-fadeSlide delay-400">
-          <a
-            href="#"
-            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-          >
-            Create Blog
-          </a>
-          <a
-            href="#"
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition"
-          >
-            Learn More
-          </a>
+          <div className="mt-8 flex justify-center gap-4 opacity-0 animate-fadeSlide delay-400">
+            <a
+              href="#"
+              className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+            >
+              Create Blog
+            </a>
+            <a
+              href="#"
+              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition"
+            >
+              Learn More
+            </a>
+          </div>
         </div>
-      </div>
 
-      <style>
-        {`
+        <style>
+          {`
           @keyframes fadeSlide {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -61,8 +62,9 @@ const HeroSection = () => {
           }
           .animate-pulse-slow { animation: pulse-slow 10s ease-in-out infinite; }
         `}
-      </style>
-    </div>
+        </style>
+      </div>
+    </>
   );
 };
 
