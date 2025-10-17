@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +48,8 @@ const Navbar = () => {
               <img
                 src={user.profileImage}
                 alt="Profile"
-                className="h-8 w-8 rounded-full"
+                className="h-8 w-8 rounded-full cursor-pointer"
+                onClick={() => setIsOpen(!isOpen)}
               />
             )}
             <button type="button" onClick={handleLogout} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">Log out<span aria-hidden="true">&rarr;</span></button>
@@ -86,6 +88,66 @@ const Navbar = () => {
           </div>
         </dialog>
       </header>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      {/* Sidebar Profile Box */}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-white/10 backdrop-blur-xl border-l border-white/20 shadow-2xl z-50 transform transition-transform duration-500 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b border-white/20">
+          <h2 className="text-white text-lg font-semibold">Profile</h2>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-white/70 hover:text-white transition"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Profile Content */}
+        <div className="p-6 text-center">
+          {/* Avatar */}
+          <img
+            src={user?.profileImage}
+            alt="Profile"
+            className="w-24 h-24 mx-auto rounded-full border-4 border-purple-400 shadow-lg mb-4"
+          />
+
+          {/* Name */}
+          <h2 className="text-2xl font-semibold text-white mb-1">
+            {user?.name || "User"}
+          </h2>
+
+          {/* Job Title */}
+          <p className="text-purple-200 font-medium mb-1">
+            {user?.jobTitle || "UI/UX Designer & Developer"}
+          </p>
+
+          {/* Gender */}
+          <p className="text-white/70 mb-6">Gender: {user?.gender || "Male"}</p>
+
+          {/* Logout Button */}
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              handleLogout();
+            }}
+            className="w-full py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-full hover:from-pink-600 hover:to-purple-700 shadow-lg transition-all duration-300"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
     </div>
   )
 };
