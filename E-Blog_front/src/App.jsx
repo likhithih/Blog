@@ -7,7 +7,7 @@ import Nav_bl from './Components/Nav_bl'
 import Home from './Pages/Home'
 import 'react-toastify/dist/ReactToastify.css';
 import CreateBlog from './Pages/CreateBlog'
-import BlogSction from './Components/BlogSection'
+import BlogSection from './Components/BlogSection'
 import About from './Pages/About'
 import PageNotFound from './Pages/PageNotFound'
 import BlogPost from './Pages/BlogPost'
@@ -23,7 +23,7 @@ function App() {
             <Route path='/create' element={<CreateBlog />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
-            <Route path='/blog' element={<BlogSction />} />
+            <Route path='/blog' element={<BlogSection />} />
             <Route path='/about' element={<About />} />
             <Route path='/post' element={<BlogPost />} />
             <Route path='*' element={<PageNotFound />} />

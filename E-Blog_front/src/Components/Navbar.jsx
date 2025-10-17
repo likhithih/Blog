@@ -40,7 +40,7 @@ const Navbar = () => {
             <Link to="/home" className="text-sm/6 font-bold text-gray-900">Home</Link>
             <Link to="/about" className="text-sm/6 font-semibold text-gray-900">About</Link>
             <Link to="/blog" className="text-sm/6 font-semibold text-gray-900">Blogs</Link>
-            <Link to="#" className="text-sm/6 font-semibold text-gray-900">Create Blog</Link>
+            <Link to="/create-blog" className="text-sm/6 font-semibold text-gray-900">Create Blog</Link>
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
             {user && (
