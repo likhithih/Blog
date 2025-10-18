@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const fullText = "Welcome to our world of words";
@@ -31,18 +32,18 @@ const HeroSection = () => {
           </p>
 
           <div className="mt-8 flex justify-center gap-4 opacity-0 animate-fadeSlide delay-400">
-            <a
-              href="#"
+            <Link
+              to="/create"
               className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
             >
               Create Blog
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/about"
               className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition"
             >
               Learn More
-            </a>
+            </Link>
           </div>
         </div>
 
