@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/LOGO_blog.png";
+import logo from "../assets/Blog-logo-Nav.png";
 import Dropdown from "./Dropdown";
 
 const Nav_bl = () => {
