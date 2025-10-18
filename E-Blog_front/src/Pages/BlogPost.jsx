@@ -12,6 +12,7 @@ function BlogPost() {
   const [commentLoading, setCommentLoading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likeLoading, setLikeLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +20,14 @@ function BlogPost() {
 
     setCommentLoading(true);
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post('http://localhost:4000/comments', {
         content: newComment,
         blogId: id
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
       setComments(prev => [response.data.comment, ...prev]);
       setNewComment('');
@@ -37,13 +43,29 @@ function BlogPost() {
   const handleLikeToggle = async () => {
     setLikeLoading(true);
     try {
-      const response = await axios.post(`http://localhost:4000/blogs/${id}/like`);
-      setIsLiked(response.data.isLiked);
-      setBlog(prev => ({
-        ...prev,
-        likes: response.data.likes
-      }));
-      toast.success(response.data.isLiked ? 'Blog liked!' : 'Blog unliked!');
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`http://localhost:4000/blogs/${id}/like`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const newIsLiked = response.data.isLiked;
+      setIsLiked(newIsLiked);
+      setBlog(prev => {
+        let updatedLikes = [...(prev.likes || [])];
+        if (newIsLiked) {
+          if (!updatedLikes.includes(user._id)) {
+            updatedLikes.push(user._id);
+          }
+        } else {
+          updatedLikes = updatedLikes.filter(id => id !== user._id);
+        }
+        return {
+          ...prev,
+          likes: updatedLikes
+        };
+      });
+      toast.success(newIsLiked ? 'Blog liked!' : 'Blog unliked!');
     } catch (error) {
       console.error('Error toggling like:', error);
       toast.error('Failed to toggle like');
@@ -51,6 +73,14 @@ function BlogPost() {
       setLikeLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -76,6 +106,12 @@ function BlogPost() {
     fetchBlog();
     fetchComments();
   }, [id]);
+
+  useEffect(() => {
+    if (user && blog) {
+      setIsLiked(blog.likes?.includes(user._id) || false);
+    }
+  }, [user, blog]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -136,6 +172,23 @@ function BlogPost() {
                 ))}
               </div>
 
+              {/* Like Button */}
+              <div className="mt-4">
+                <button
+                  onClick={handleLikeToggle}
+                  disabled={likeLoading}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                    isLiked ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {likeLoading ? (
+                    <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <span className="text-lg">{isLiked ? '❤️' : '🤍'}</span>
+                  )}
+                  <span>{blog.likes?.length || 0} Likes</span>
+                </button>
+              </div>
 
             </div>
           </div>
