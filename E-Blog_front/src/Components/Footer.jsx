@@ -217,24 +217,24 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Contact Us</h3>
             <address className="not-italic text-gray-400">
-              <p>123 Business Ave</p>
-              <p>San Francisco, CA 94107</p>
+              <p>e Business Ave</p>
+              <p>Bengaluru, KA 560072</p>
               <p className="mt-2">
                 Email:{" "}
                 <a
                   href="mailto:info@company.com"
                   className="hover:text-white transition"
                 >
-                  info@company.com
+                  raj@company.com
                 </a>
               </p>
               <p>
                 Phone:{" "}
                 <a
-                  href="tel:+11234567890"
+                  href="tel:+91123456789"
                   className="hover:text-white transition"
                 >
-                  +1 (123) 456-7890
+                  +91 9874561231
                 </a>
               </p>
             </address>

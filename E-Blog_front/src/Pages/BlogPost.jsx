@@ -41,6 +41,11 @@ function BlogPost() {
   };
 
   const handleLikeToggle = async () => {
+    if (!user) {
+      toast.error('Please login to like blogs');
+      return;
+    }
+
     setLikeLoading(true);
     try {
       const token = localStorage.getItem('token');
@@ -87,6 +92,7 @@ function BlogPost() {
       try {
         const response = await axios.get(`http://localhost:4000/blogs/${id}`);
         setBlog(response.data);
+        setIsLiked(response.data.likes?.includes(user?._id));
       } catch (error) {
         console.error('Error fetching blog:', error);
       } finally {
@@ -105,7 +111,7 @@ function BlogPost() {
 
     fetchBlog();
     fetchComments();
-  }, [id]);
+  }, [id, user?._id]);
 
   useEffect(() => {
     if (user && blog) {
