@@ -2,15 +2,6 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import 'react-toastify/dist/ReactToastify.css';
-import CreateBlog from './Pages/CreateBlog'
-import BlogSection from './Components/BlogSection'
-import About from './Pages/About'
-import PageNotFound from './Pages/PageNotFound'
-import BlogPost from './Pages/BlogPost'
-// import HeroSection from './Components/HeroSection'
-import LandingBody from './Components/LandingBody'
-
-
 import Nav_bl from "./Components/Nav_bl";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
