@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "./Navbar";
-const posts = [
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+
+const hardcodedPosts = [
   {
     id: 1,
     date: "Mar 16, 2020",
@@ -51,20 +55,104 @@ const posts = [
   },
 ];
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+};
+
+const stripHtml = (html) => {
+  const tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+};
+
 const categories = ["All", "Web", "AI", "Fullstack", "Testing", "Marketing", "Sales", "Business"];
 
 export default function BlogSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
-  const filteredPosts = selectedCategory === "All" ? posts : posts.filter(post => post.category === selectedCategory);
+  const handleLikeToggle = async (blogId) => {
+    if (!user) {
+      toast.error('Please login to like blogs');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`http://localhost:4000/blogs/${blogId}/like`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setBlogs(prevBlogs =>
+        prevBlogs.map(blog =>
+          blog._id === blogId
+            ? { ...blog, likes: response.data.likes }
+            : blog
+        )
+      );
+      toast.success(response.data.isLiked ? 'Blog liked!' : 'Blog unliked!');
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      toast.error('Failed to toggle like');
+    }
+  };
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/blogs');
+        setBlogs(response.data);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  // Combine hardcoded posts with fetched blogs
+  const allPosts = [
+    ...blogs.map(blog => ({
+      id: blog._id,
+      date: formatDate(blog.createdAt),
+      category: blog.category,
+      title: blog.title,
+      description: blog.description,
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+      author: {
+        name: user?.name || blog.author?.name || 'Anonymous',
+        role: user?.role || blog.author?.role || 'Author',
+        image: user?.image || blog.author?.image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+      commentsCount: blog.comments?.length || 0,
+      likesCount: blog.likes?.length || 0,
+    })),
+    ...hardcodedPosts
+  ];
+
+  const filteredPosts = selectedCategory === "All" ? allPosts : allPosts.filter(post => post.category === selectedCategory);
 
   return (
     <>
       <Navbar />
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-27 h-full bg-gradient-to-b from-gray-800 to-gray-900  p-4 shadow-lg transition-all duration-300 overflow-hidden ${isHovered ? 'w-64' : 'w-16'}`}
+        className={`fixed left-0 top-27 h-full bg-gradient-to-b from-gray-800 to-gray-900 p-4 shadow-lg transition-all duration-300 overflow-hidden ${isHovered ? 'w-64' : 'w-16'}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -81,7 +169,7 @@ export default function BlogSection() {
                   className={`w-full px-4 py-3 rounded-full transition-all duration-300 transform hover:scale-105 ${selectedCategory === category
                     ? "bg-indigo-500 text-white shadow-md"
                     : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white"
-                    }`}
+                  }`}
                 >
                   <div className={`flex items-center transition-all duration-300 ${isHovered ? 'justify-start' : 'justify-center'}`}>
                     <span className="text-lg">{icons[index]}</span>
@@ -95,7 +183,7 @@ export default function BlogSection() {
       </div>
 
       {/* Main Content */}
-      <div className={`bg-[#d8e2e4] text-white py-16 px-6 mt-4 transition-all duration-300 ${isHovered ? 'ml-64' : 'ml-0'}`}>
+      <div className={`bg-[#d8e2e4] text-white py-16 px-6 mt-4 transition-all duration-300 ${isHovered ? 'ml-64' : 'ml-16'}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 mt-8">
             <h2 className="text-4xl font-bold mb-2 text-black">From the blog</h2>
@@ -109,6 +197,7 @@ export default function BlogSection() {
               <div
                 key={post.id}
                 className="bg-[#1e293b] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
+                onDoubleClick={() => handleLikeToggle(post.id)}
               >
                 <img
                   src={post.image}
@@ -121,13 +210,26 @@ export default function BlogSection() {
                     <span className="bg-[#334155] px-3 py-1 rounded-full text-xs font-semibold">
                       {post.category}
                     </span>
+                    <span className="text-xs">💬 {post.commentsCount || 0}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLikeToggle(post.id);
+                      }}
+                      className={`text-xs flex items-center gap-1 transition-colors ${
+                        user && post.likes?.includes(user._id) ? 'text-red-500' : 'text-gray-400 hover:text-red-400'
+                      }`}
+                    >
+                      {user && post.likes?.includes(user._id) ? '❤️' : '🤍'} {post.likesCount || 0}
+                    </button>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 hover:text-indigo-400 cursor-pointer">
+                  <h3
+                    className="text-lg font-semibold mb-2 hover:text-indigo-400 cursor-pointer"
+                    onClick={() => navigate(`/blog/${post.id}`)}
+                  >
                     {post.title}
                   </h3>
-                  <p className="text-gray-400 text-sm mb-6">
-                    {post.description.slice(0, 120)}...
-                  </p>
+                  <p className="text-gray-400 text-sm mb-6" dangerouslySetInnerHTML={{ __html: post.description.length > 120 ? post.description.slice(0, 120) + '...' : post.description }} />
                   <div className="flex items-center space-x-3">
                     <img
                       src={post.author.image}

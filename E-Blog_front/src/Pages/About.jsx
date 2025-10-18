@@ -19,7 +19,7 @@ function About({ status, toggle }) {
   return (
     <>
       {isLoggedIn ? <Navbar /> : <Nav_bl />}
-      <div className="pt-30 mb-20">
+      <div className="pt-30 mb-20 mt-20">
         <section className="flex flex-col md:flex-row items-center justify-center gap-10 max-md:px-4 mb-16">
           <div className="relative shadow-2xl shadow-indigo-600/40 rounded-2xl overflow-hidden shrink-0">
             <img
