@@ -10,6 +10,8 @@ function BlogPost() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [commentLoading, setCommentLoading] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeLoading, setLikeLoading] = useState(false);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +34,23 @@ function BlogPost() {
     }
   };
 
-
+  const handleLikeToggle = async () => {
+    setLikeLoading(true);
+    try {
+      const response = await axios.post(`http://localhost:4000/blogs/${id}/like`);
+      setIsLiked(response.data.isLiked);
+      setBlog(prev => ({
+        ...prev,
+        likes: response.data.likes
+      }));
+      toast.success(response.data.isLiked ? 'Blog liked!' : 'Blog unliked!');
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      toast.error('Failed to toggle like');
+    } finally {
+      setLikeLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -117,7 +135,6 @@ function BlogPost() {
                   </a>
                 ))}
               </div>
-
 
 
             </div>
