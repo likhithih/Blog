@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const featuresSection1 = [
@@ -11,7 +11,7 @@ const featuresSection1 = [
         <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" />
       </svg>
     ),
-    color: "violet",
+    color: "rgba(139,92,246,0.15)",
   },
   {
     title: "Manage Content",
@@ -21,7 +21,7 @@ const featuresSection1 = [
         <path d="M12 3H5a2 2 0 0 0-2 2v14l4-4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" />
       </svg>
     ),
-    color: "green",
+    color: "rgba(34,197,94,0.15)",
   },
   {
     title: "SEO Optimized",
@@ -32,7 +32,7 @@ const featuresSection1 = [
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
     ),
-    color: "red",
+    color: "rgba(239,68,68,0.15)",
   },
 ];
 
@@ -47,7 +47,7 @@ const featuresSection2 = [
         <path d="M15 17V5" />
       </svg>
     ),
-    color: "blue",
+    color: "rgba(59,130,246,0.15)",
   },
   {
     title: "Community Interaction",
@@ -58,7 +58,7 @@ const featuresSection2 = [
         <circle cx="12" cy="10" r="3" />
       </svg>
     ),
-    color: "purple",
+    color: "rgba(139,92,246,0.15)",
   },
   {
     title: "Custom Reports",
@@ -69,124 +69,69 @@ const featuresSection2 = [
         <path d="M7 10l5 5 5-5" />
       </svg>
     ),
-    color: "orange",
+    color: "rgba(249,115,22,0.15)",
   },
 ];
 
 const LandingBody = () => {
-  const [showImage1, setShowImage1] = useState(true);
-  const [showImage2, setShowImage2] = useState(true);
+  const imagesSection1 = ["/bloger.jpg", "/Blog creating Back Cover.jpg"];
+  const imagesSection2 = ["/Meta Verse back cover.jpg", "/social.jpg"];
+
+  const [currentImage1, setCurrentImage1] = useState(0);
+  const [currentImage2, setCurrentImage2] = useState(0);
+
+  useEffect(() => {
+    const interval1 = setInterval(() => setCurrentImage1((prev) => (prev + 1) % imagesSection1.length), 3000);
+    const interval2 = setInterval(() => setCurrentImage2((prev) => (prev + 1) % imagesSection2.length), 3000);
+    return () => {
+      clearInterval(interval1);
+      clearInterval(interval2);
+    };
+  }, []);
+
+  const renderFeature = (feature, idx) => (
+    <motion.div
+      key={idx}
+      className="relative p-5 md:p-6 flex items-start gap-5 rounded-3xl border border-gray-100 bg-white shadow-md cursor-pointer overflow-hidden group transition-all duration-300"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: idx * 0.15, duration: 0.6, ease: "easeInOut" }}
+      viewport={{ once: true }}
+      whileHover={{ scale: 1.04 }}
+    >
+      <motion.div
+        className="absolute inset-0 rounded-3xl z-0"
+        style={{ backgroundColor: feature.color }}
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      />
+      <div className="flex-shrink-0 z-10">{feature.icon}</div>
+      <motion.div className="flex flex-col gap-1 p-3 rounded-xl w-full z-10" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
+        <h3 className="text-lg md:text-xl font-semibold text-gray-900">{feature.title}</h3>
+        <p className="text-sm md:text-base text-gray-700 leading-relaxed">{feature.desc}</p>
+      </motion.div>
+    </motion.div>
+  );
+
+  const renderImage = (src, overlayColor) => (
+    <motion.div className="relative w-[450px] md:w-[600px] h-[400px] md:h-[500px] flex-shrink-0 rounded-3xl shadow-2xl overflow-hidden z-10" whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
+      <motion.div className="absolute inset-0 rounded-3xl z-20" style={{ backgroundColor: overlayColor }} initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }} />
+      <motion.img src={src} alt="Feature image" className="absolute top-0 left-0 w-full h-full object-cover rounded-3xl z-10" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: "easeInOut" }} />
+    </motion.div>
+  );
 
   return (
     <>
-      <div className="landing-bg min-h-screen flex flex-col items-center justify-center gap-36 px-6 py-12 relative">
-
-        {/* Section 1 */}
-        <div className="flex flex-col md:flex-row items-center gap-16 md:gap-32 w-full justify-center relative">
-          <motion.div
-            className="relative w-[450px] md:w-[600px] h-[400px] md:h-[500px] cursor-pointer flex-shrink-0 rounded-3xl shadow-2xl overflow-hidden z-10"
-            onClick={() => setShowImage1(!showImage1)}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.img
-              key={showImage1 ? "img1" : "img2"}
-              src={showImage1 ? "/bloger.jpg" : "/Blog creating Back Cover.jpg"}
-              alt="Feature image"
-              className="absolute top-0 left-0 w-full h-full object-cover rounded-3xl"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-            />
-          </motion.div>
-
-          <div className="flex flex-col gap-8 md:gap-10 w-full md:w-[400px] z-20">
-            {featuresSection1.map((feature, idx) => (
-              <motion.div
-                key={idx}
-                className="relative p-4 md:p-6 flex items-start gap-4 rounded-2xl border border-transparent cursor-pointer overflow-hidden group"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.2, duration: 0.7, ease: "easeInOut" }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.03 }}
-              >
-                <motion.div
-                  className="flex-shrink-0"
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: idx * 0.2, duration: 0.6 }}
-                >
-                  {feature.icon}
-                </motion.div>
-                <motion.div
-                  className={`flex flex-col gap-1 p-4 rounded-xl w-full transition-all duration-300`}
-                  whileHover={{ backgroundColor: `var(--tw-bg-${feature.color}-400)` }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                >
-                  <h3 className="text-lg font-semibold text-black">{feature.title}</h3>
-                  <p className="text-sm text-black leading-relaxed">{feature.desc}</p>
-                </motion.div>
-              </motion.div>
-            ))}
-          </div>
+      <div className="landing-bg min-h-screen flex flex-col items-center justify-center gap-32 px-6 py-12 pt-36 relative">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-28 w-full justify-center">
+          {renderImage(imagesSection1[currentImage1], "rgba(139,92,246,0.15)")}
+          <div className="flex flex-col gap-6 md:gap-8 w-full md:w-[400px]">{featuresSection1.map(renderFeature)}</div>
         </div>
 
-        {/* Section 2 */}
-        <div className="flex flex-col md:flex-row items-center gap-16 md:gap-32 w-full justify-center relative">
-          <div className="flex flex-col gap-8 md:gap-10 w-full md:w-[400px] z-20">
-            {featuresSection2.map((feature, idx) => (
-              <motion.div
-                key={idx}
-                className="relative p-4 md:p-6 flex items-start gap-4 rounded-2xl border border-transparent cursor-pointer overflow-hidden group"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.2, duration: 0.7, ease: "easeInOut" }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.03 }}
-              >
-                <motion.div
-                  className="flex-shrink-0"
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: idx * 0.2, duration: 0.6 }}
-                >
-                  {feature.icon}
-                </motion.div>
-                <motion.div
-                  className={`flex flex-col gap-1 p-4 rounded-xl w-full transition-all duration-300`}
-                  whileHover={{ backgroundColor: `var(--tw-bg-${feature.color}-400)` }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                >
-                  <h3 className="text-lg font-semibold text-black">{feature.title}</h3>
-                  <p className="text-sm text-black leading-relaxed">{feature.desc}</p>
-                </motion.div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            className="relative w-[450px] md:w-[600px] h-[400px] md:h-[500px] cursor-pointer flex-shrink-0 rounded-3xl shadow-2xl overflow-hidden z-10"
-            onClick={() => setShowImage2(!showImage2)}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.img
-              key={showImage2 ? "img3" : "img4"}
-              src={showImage2 ? "/Meta Verse back cover.jpg" : "/social.jpg"}
-              alt="Feature image"
-              className="absolute top-0 left-0 w-full h-full object-cover rounded-3xl"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-            />
-          </motion.div>
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-28 w-full justify-center">
+          <div className="flex flex-col gap-6 md:gap-8 w-full md:w-[400px]">{featuresSection2.map(renderFeature)}</div>
+          {renderImage(imagesSection2[currentImage2], "rgba(34,197,94,0.15)")}
         </div>
       </div>
 
@@ -202,7 +147,7 @@ const LandingBody = () => {
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
-          opacity: 0.15;
+          opacity: 0.12;
           z-index: -1;
         }
       `}</style>
