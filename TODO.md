@@ -1,0 +1,4 @@
+- [x] Add user state and fetch from localStorage in BlogPost.jsx
+- [x] Add like button in the BlogPost UI
+- [x] Fix handleLikeToggle to include Authorization header and check for user login
+- [x] Ensure isLiked is set correctly based on blog.likes and user._id

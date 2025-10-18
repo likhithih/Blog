@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "./Navbar";
-const posts = [
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+
+const hardcodedPosts = [
   {
     id: 1,
     date: "Mar 16, 2020",
@@ -51,17 +55,76 @@ const posts = [
   },
 ];
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+};
+
+const stripHtml = (html) => {
+  const tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+};
+
 const categories = ["All", "Web", "AI", "Fullstack", "Testing", "Marketing", "Sales", "Business"];
 
 export default function BlogSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  const filteredPosts = selectedCategory === "All" ? posts : posts.filter(post => post.category === selectedCategory);
+
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/blogs');
+        setBlogs(response.data);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  // Combine hardcoded posts with fetched blogs
+  const allPosts = [
+    ...blogs.map(blog => ({
+      id: blog._id,
+      date: formatDate(blog.createdAt),
+      category: blog.category,
+      title: blog.title,
+      description: blog.description,
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+      author: {
+        name: user?.name || blog.author?.name || 'Anonymous',
+        role: user?.role || blog.author?.role || 'Author',
+        image: user?.image || blog.author?.image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+      commentsCount: blog.comments?.length || 0,
+      likesCount: blog.likes?.length || 0,
+    })),
+    ...hardcodedPosts
+  ];
+
+  const filteredPosts = selectedCategory === "All" ? allPosts : allPosts.filter(post => post.category === selectedCategory);
 
   return (
     <>
       <Navbar />
-      <div className="bg-[#d8e2e4] text-white py-16 px-6">
+      <div className="bg-[#d8e2e4] text-white py-30 px-6">
         <div className="max-w-7xl mx-auto flex">
           {/* Sidebar */}
         <div className="w-1/4 pr-6 -ml-10">
@@ -105,6 +168,7 @@ export default function BlogSection() {
                 <div
                   key={post.id}
                   className="bg-[#1e293b] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
+
                 >
                   <img
                     src={post.image}
@@ -117,13 +181,15 @@ export default function BlogSection() {
                       <span className="bg-[#334155] px-3 py-1 rounded-full text-xs font-semibold">
                         {post.category}
                       </span>
+                      <span className="text-xs">💬 {post.commentsCount || 0}</span>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 hover:text-indigo-400 cursor-pointer">
+                    <h3
+                      className="text-lg font-semibold mb-2 hover:text-indigo-400 cursor-pointer"
+                      onClick={() => navigate(`/blog/${post.id}`)}
+                    >
                       {post.title}
                     </h3>
-                    <p className="text-gray-400 text-sm mb-6">
-                      {post.description.slice(0, 120)}...
-                    </p>
+                    <p className="text-gray-400 text-sm mb-6" dangerouslySetInnerHTML={{ __html: post.description.length > 120 ? post.description.slice(0, 120) + '...' : post.description }} />
                     <div className="flex items-center space-x-3">
                       <img
                         src={post.author.image}
@@ -142,6 +208,7 @@ export default function BlogSection() {
           </div>
         </div>
       </div>
+      
     </>
   );
 }

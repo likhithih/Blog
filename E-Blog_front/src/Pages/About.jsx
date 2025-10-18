@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Components/Navbar";
+import Nav_bl from "../Components/Nav_bl";
 import Footer from "../Components/Footer";
 
 function About() {
   const [showMore, setShowMore] = useState(false);
   const [showMoreSecond, setShowMoreSecond] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(!!user);
+  }, []);
 
   const toggleShowMore = () => {
     setShowMore(!showMore);
@@ -15,8 +22,8 @@ function About() {
   };
   return (
     <>
-      {/* <Navbar /> */}
-      <div className="mt-40 mb-20">
+      {isLoggedIn ? <Navbar /> : <Nav_bl />}
+      <div className="pt-30 mb-20">
         <section className="flex flex-col md:flex-row items-center justify-center gap-10 max-md:px-4 mb-16">
           <div className="relative shadow-2xl shadow-indigo-600/40 rounded-2xl overflow-hidden shrink-0">
             <img
@@ -200,7 +207,7 @@ function About() {
           </div>
         </section>
       </div>
-      <Footer />
+      {isLoggedIn ? <Footer /> : null}
     </>
   );
 }

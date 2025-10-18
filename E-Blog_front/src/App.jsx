@@ -10,7 +10,7 @@ import BlogSection from './Components/BlogSection'
 import About from './Pages/About'
 import PageNotFound from './Pages/PageNotFound'
 import BlogPost from './Pages/BlogPost'
-import HeroSection from './Components/HeroSection'
+// import HeroSection from './Components/HeroSection'
 import LandingBody from './Components/LandingBody'
 
 
@@ -19,20 +19,20 @@ function App() {
   return (
     <>
       <div>
-        {/* <BrowserRouter>
+        <BrowserRouter>
           <Routes>
-            <Route path='/' element={<><Nav_bl /><HeroSection /></>} />
+            <Route path='/' element={<><Nav_bl /><LandingBody /></>} />
             <Route path='/home' element={<Home />} />
             <Route path='/create' element={<CreateBlog />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/blog' element={<BlogSection />} />
             <Route path='/about' element={<About />} />
-            <Route path='/post' element={<BlogPost />} />
+            <Route path='/blog/:id' element={<BlogPost />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
-        </BrowserRouter> */}
-        <LandingBody/>
+        </BrowserRouter>
+        {/* <LandingBody/> */}
       
       </div>
     </>

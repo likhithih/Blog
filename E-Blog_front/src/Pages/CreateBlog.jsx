@@ -1,15 +1,18 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Editor } from '@tinymce/tinymce-react';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../Components/Navbar';
 
 const CreateBlog = () => {
     const [formData, setFormData] = useState({
         title: '',
         category: 'Web',
-        // image: '',
         description: ''
     });
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     // const [draggedImage, setDraggedImage] = useState(null);
     // const fileInputRef = useRef(null);
 
@@ -22,7 +25,6 @@ const CreateBlog = () => {
 
     // const handleDragOver = (e) => {
     //     e.preventDefault();
-    // };
 
     // const handleDrop = (e) => {
     //     e.preventDefault();
@@ -57,6 +59,8 @@ const CreateBlog = () => {
 
             if (response.status === 201) {
                 toast.success('Blog created successfully!');
+                // Navigate to blog page
+                navigate('/blog');
                 // Reset form
                 setFormData({
                     title: '',
@@ -79,48 +83,50 @@ const CreateBlog = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">Create New Blog</h1>
+        <>
+            <Navbar />
+            <div className="max-w-4xl mx-auto p-6 mt-30">
+                <h1 className="text-3xl font-bold text-gray-900 mb-8">Create New Blog</h1>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Enter blog title"
-                        required
-                    />
-                </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                            Title
+                        </label>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Enter blog title"
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
-                        Category
-                    </label>
-                    <select
-                        id="category"
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    >
-                        <option value="Web">Web</option>
-                        <option value="AI">AI</option>
-                        <option value="Fullstack">Fullstack</option>
-                        <option value="Testing">Testing</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Sales">Sales</option>
-                        <option value="Business">Business</option>
-                    </select>
-                </div>
+                    <div>
+                        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+                            Category
+                        </label>
+                        <select
+                            id="category"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        >
+                            <option value="Web">Web</option>
+                            <option value="AI">AI</option>
+                            <option value="Fullstack">Fullstack</option>
+                            <option value="Testing">Testing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Business">Business</option>
+                        </select>
+                    </div>
 
-                {/* <div>
+                    {/* <div>
                     <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
                         Image
                     </label>
@@ -167,33 +173,41 @@ const CreateBlog = () => {
                     />
                 </div> */}
 
-                <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-                        Description
-                    </label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Enter a short description"
-                        required
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                            Description
+                        </label>
+                        <Editor
+                            apiKey="trw65qk6tctvxf1z1v4pu3mb98y2dc4t8peggm20qq58v042" // Replace with your TinyMCE API key
+                            value={formData.description}
+                            onEditorChange={(content) => { setFormData({ ...formData, description: content }); console.log(content) }}
+                            initialValue="<p>This is the initial content of the editor.</p>"
+                            init={{
+                                height: 300,
+                                menubar: true,
+                                forced_root_block: false,
+                                plugins: [
+                                    'advlist autolink lists link image charmap print preview anchor',
+                                    'searchreplace visualblocks code fullscreen',
+                                    'insertdatetime media table paste code help wordcount'
+                                ],
+                                toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+                            }}
+                        />
+                    </div>
 
 
 
-                <button
-                    type="submit"
-                    // disabled={loading}
-                    className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                    {loading ? 'Creating...' : 'Create Blog'}
-                </button>
-            </form>
-        </div>
+                    <button
+                        type="submit"
+                        // disabled={loading}
+                        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                        {loading ? 'Creating...' : 'Create Blog'}
+                    </button>
+                </form>
+            </div>
+        </>
     );
 };
 

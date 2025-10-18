@@ -3,19 +3,11 @@ import User from '../models/User.js';
 
 export const createBlog = async (req, res) => {
     try {
-        const { title, category, image, description } = req.body;
-
-        let imagePath = image || 'https://via.placeholder.com/300x200?text=No+Image';
-
-        // If file was uploaded, use the uploaded file path
-        // if (req.file) {
-        //     imagePath = `/images/${req.file.filename}`;
-        // }
+        const { title, category, description } = req.body;
 
         const newBlog = new Blog({
             title,
             category,
-            image: imagePath,
             description,
             author: '68f210120e6b3f1f77866614' // Hardcoded for testing
         });
@@ -38,3 +30,19 @@ export const getBlogs = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+export const getBlogById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const blog = await Blog.findById(id).populate('author', 'username email name role image');
+        if (!blog) {
+            return res.status(404).json({ message: 'Blog not found' });
+        }
+        res.status(200).json(blog);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
