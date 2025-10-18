@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../Components/Navbar";
-import Nav_bl from "../Components/Nav_bl";
 import Footer from "../Components/Footer";
 import Nav_bl from "../Components/Nav_bl";
 
@@ -174,12 +173,7 @@ function About({ status, toggle }) {
           </div>
         </section>
       </div>
-<<<<<<< HEAD
       {isLoggedIn ? <Footer /> : null}
-=======
-
-      <Footer />
->>>>>>> 78d0235f21f982f9acf58510d4cb3f747421da8f
     </>
   );
 }

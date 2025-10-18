@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const featuresSection1 = [
   {
     title: "Create Blog Posts",
-    desc: "Write and publish blog posts effortlessly with rich text editor and media support.",
+    desc: "Write and publish blog posts effortlessly with rich text editor and media support. Customize your posts with images, videos, and formatting to make your content engaging and visually appealing.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 stroke-violet-600 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 20h9" />
@@ -15,7 +15,7 @@ const featuresSection1 = [
   },
   {
     title: "Manage Content",
-    desc: "Organize posts with categories and tags, edit or delete anytime.",
+    desc: "Organize posts with categories and tags, edit or delete anytime. Keep your blog organized and easily searchable, ensuring readers find the content they love.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 stroke-green-600 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 3H5a2 2 0 0 0-2 2v14l4-4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" />
@@ -25,7 +25,7 @@ const featuresSection1 = [
   },
   {
     title: "SEO Optimized",
-    desc: "Boost visibility with SEO-friendly URLs, metadata, and clean design.",
+    desc: "Boost visibility with SEO-friendly URLs, metadata, and clean design. Improve search engine rankings and attract more organic traffic to your blog effortlessly.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 stroke-red-600 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="11" cy="11" r="8" />
@@ -39,7 +39,7 @@ const featuresSection1 = [
 const featuresSection2 = [
   {
     title: "Track Analytics",
-    desc: "Monitor your readers’ engagement, views, and trends in real-time.",
+    desc: "Monitor your readers’ engagement, views, and trends in real-time. Understand which posts resonate the most and make data-driven decisions for future content.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 stroke-blue-600 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 3v18h18" />
@@ -51,7 +51,7 @@ const featuresSection2 = [
   },
   {
     title: "Community Interaction",
-    desc: "Enable comments, shares, and subscriptions to build an active community.",
+    desc: "Enable comments, shares, and subscriptions to build an active community. Engage with your readers, answer questions, and foster meaningful discussions.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 stroke-purple-600 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 10c0 6-9 13-9 13S3 16 3 10a9 9 0 0118 0z" />
@@ -62,7 +62,7 @@ const featuresSection2 = [
   },
   {
     title: "Custom Reports",
-    desc: "Export analytics and reports for better decision-making and growth.",
+    desc: "Export analytics and reports for better decision-making and growth. Track your blog’s progress over time and measure the success of your strategies.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 stroke-orange-600 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -114,24 +114,48 @@ const LandingBody = () => {
     </motion.div>
   );
 
-  const renderImage = (src, overlayColor) => (
-    <motion.div className="relative w-[450px] md:w-[600px] h-[400px] md:h-[500px] flex-shrink-0 rounded-3xl shadow-2xl overflow-hidden z-10" whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
-      <motion.div className="absolute inset-0 rounded-3xl z-20" style={{ backgroundColor: overlayColor }} initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }} />
-      <motion.img src={src} alt="Feature image" className="absolute top-0 left-0 w-full h-full object-cover rounded-3xl z-10" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: "easeInOut" }} />
+  const renderImage = (src) => (
+    <motion.div className={`relative w-[450px] md:w-[600px] h-[400px] md:h-[500px] flex-shrink-0 rounded-3xl shadow-2xl overflow-hidden z-10 ${src.includes('bloger.jpg') ? 'bg-white' : ''}`} whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
+      <motion.img key={src} src={src} alt="Feature image" className={`absolute top-0 left-0 w-full h-full rounded-3xl z-10 ${src.includes('bloger.jpg') ? 'object-contain' : 'object-cover'}`} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: "easeInOut" }} />
     </motion.div>
   );
 
   return (
     <>
-      <div className="landing-bg min-h-screen flex flex-col items-center justify-center gap-32 px-6 py-12 pt-36 relative">
+      <div className="landing-bg min-h-screen flex flex-col items-center justify-center gap-16 px-6 py-12 pt-36 relative">
+        {/* Animated Welcome Section */}
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <motion.h1
+            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          >
+            Welcome to Our Blog Website
+          </motion.h1>
+          <motion.p
+            className="text-lg md:text-xl text-gray-700 italic"
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            "Sharing ideas, inspiring minds, and creating a community through words."
+          </motion.p>
+        </motion.div>
+
         <div className="flex flex-col md:flex-row items-center gap-12 md:gap-28 w-full justify-center">
-          {renderImage(imagesSection1[currentImage1], "rgba(139,92,246,0.15)")}
+          {renderImage(imagesSection1[currentImage1])}
           <div className="flex flex-col gap-6 md:gap-8 w-full md:w-[400px]">{featuresSection1.map(renderFeature)}</div>
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-12 md:gap-28 w-full justify-center">
           <div className="flex flex-col gap-6 md:gap-8 w-full md:w-[400px]">{featuresSection2.map(renderFeature)}</div>
-          {renderImage(imagesSection2[currentImage2], "rgba(34,197,94,0.15)")}
+          {renderImage(imagesSection2[currentImage2])}
         </div>
       </div>
 

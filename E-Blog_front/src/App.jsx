@@ -4,26 +4,18 @@ import { useState, useEffect } from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import CreateBlog from './Pages/CreateBlog'
 import BlogSection from './Components/BlogSection'
-import About from './Pages/About'
-import PageNotFound from './Pages/PageNotFound'
 import BlogPost from './Pages/BlogPost'
 // import HeroSection from './Components/HeroSection'
 import LandingBody from './Components/LandingBody'
-
-
-import Nav_bl from "./Components/Nav_bl";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import CreateBlog from "./Pages/CreateBlog";
-import BlogSection from "./Components/BlogSection";
 import About from "./Pages/About";
 import PageNotFound from "./Pages/PageNotFound";
-import BlogPost from "./Pages/BlogPost";
-import LandingBody from "./Components/LandingBody";
 import Users from "./Admin/Users";
 import Blog from "./Admin/Blog";
 import Admin from "./Admin/Admin";
+import Nav_bl from "./Components/Nav_bl";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
