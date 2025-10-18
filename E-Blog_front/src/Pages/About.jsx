@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../Components/Navbar";
-// import Nav_bl from "../Components/Nav_bl";
 import Footer from "../Components/Footer";
 import Nav_bl from "../Components/Nav_bl";
 
