@@ -50,9 +50,9 @@ export default function Sidebar() {
         </div>
 
         <div>
-          <button className="w-full bg-violet-600 text-white py-2 rounded-lg hover:bg-violet-700 transition">
+          <Link to='/login'><button className="w-full bg-violet-600 text-white py-2 rounded-lg hover:bg-violet-700 transition">
             LOGOUT
-          </button>
+          </button></Link>
         </div>
       </div>
 
