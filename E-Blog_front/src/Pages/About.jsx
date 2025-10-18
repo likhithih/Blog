@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import Nav_bl from "../Components/Nav_bl";
 
 function About() {
   const [showMore, setShowMore] = useState(false);
@@ -15,7 +16,7 @@ function About() {
   };
   return (
     <>
-      {/* <Navbar /> */}
+      <Nav_bl/>
       <div className="mt-40 mb-20">
         <section className="flex flex-col md:flex-row items-center justify-center gap-10 max-md:px-4 mb-16">
           <div className="relative shadow-2xl shadow-indigo-600/40 rounded-2xl overflow-hidden shrink-0">

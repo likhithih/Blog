@@ -19,9 +19,9 @@ function App() {
   return (
     <>
       <div>
-        {/* <BrowserRouter>
+        <BrowserRouter>
           <Routes>
-            <Route path='/' element={<><Nav_bl /><HeroSection /></>} />
+            <Route path='/' element={<><Nav_bl /><LandingBody/></>} />
             <Route path='/home' element={<Home />} />
             <Route path='/create' element={<CreateBlog />} />
             <Route path='/login' element={<Login />} />
@@ -31,8 +31,8 @@ function App() {
             <Route path='/post' element={<BlogPost />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
-        </BrowserRouter> */}
-        <LandingBody/>
+        </BrowserRouter>
+        
       
       </div>
     </>
