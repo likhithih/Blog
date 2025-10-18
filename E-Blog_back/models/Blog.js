@@ -11,11 +11,6 @@ const blogSchema = new mongoose.Schema({
         required: true,
         enum: ['Web', 'AI', 'Fullstack', 'Testing', 'Marketing', 'Sales', 'Business']
     },
-    image: {
-        type: String,
-        required: true,
-        trim: true
-    },
     description: {
         type: String,
         required: true,
@@ -26,6 +21,11 @@ const blogSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    }],
+
     createdAt: {
         type: Date,
         default: Date.now

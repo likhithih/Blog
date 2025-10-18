@@ -64,7 +64,7 @@ export default function BlogSection() {
       <Navbar />
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-27 h-full bg-gradient-to-b from-gray-800 to-gray-900  p-4 shadow-lg transition-all duration-300 overflow-hidden ${isHovered ? 'w-64' : 'w-16'}`}
+        className={`fixed left-0 top-20 h-full bg-gradient-to-b from-gray-800 to-gray-900 rounded-r-xl p-4 shadow-lg transition-all duration-300 overflow-hidden ${isHovered ? 'w-64' : 'w-16'}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

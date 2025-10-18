@@ -1,6 +1,7 @@
 import express from "express";
 import { signup, login } from "../controllers/authController.js";
-import { createBlog, getBlogs } from "../controllers/blogController.js";
+import { createBlog, getBlogs, getBlogById } from "../controllers/blogController.js";
+import { createComment, getCommentsByBlog } from "../controllers/commentController.js";
 import authenticate from '../middleware/authenticate.js';
 import multer from 'multer';
 import path from 'path';
@@ -28,5 +29,11 @@ router.post('/login',login);
 
 // Blog routes
 router.route('/blogs').post(createBlog).get(getBlogs);
+router.route('/blogs/:id').get(getBlogById);
+
+
+// Comment routes
+router.route('/comments').post(createComment);
+router.route('/comments/:blogId').get(getCommentsByBlog);
 
 export default router;

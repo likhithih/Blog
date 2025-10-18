@@ -8,9 +8,9 @@ const Nav_bl = () => {
 
       <nav className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center h-16">
         {/* Logo at the far left */}
-        <a href="#" className="flex-1">
+        <Link to='/' className="flex-1">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
-        </a>
+        </Link>
 
         {/* Links and auth spaced evenly */}
         <div className="flex-1 flex justify-around items-center ml-6 bg-white/0 rounded-md px-4 py-2">
