@@ -1,4 +1,4 @@
-import logo from '../assets/LOGO_blog.png';
+import logo from '../assets/Blog-logo-Nav.png';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
