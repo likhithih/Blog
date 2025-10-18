@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const CreateBlog = () => {
     const [formData, setFormData] = useState({
         title: '',
-        content: '',
-        category: 'Web'
+        category: 'Web',
+        // image: '',
+        description: ''
     });
     const [loading, setLoading] = useState(false);
+    // const [draggedImage, setDraggedImage] = useState(null);
+    // const fileInputRef = useRef(null);
 
     const handleChange = (e) => {
         setFormData({
@@ -17,21 +20,51 @@ const CreateBlog = () => {
         });
     };
 
+    // const handleDragOver = (e) => {
+    //     e.preventDefault();
+    // };
+
+    // const handleDrop = (e) => {
+    //     e.preventDefault();
+    //     const files = e.dataTransfer.files;
+    //     if (files.length > 0) {
+    //         const file = files[0];
+    //         const reader = new FileReader();
+    //         reader.onload = () => {
+    //             setFormData({ ...formData, image: reader.result });
+    //             setDraggedImage(reader.result);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     } else {
+    //         toast.error('Please drop a valid image file.');
+    //     }
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:4000/blogs', formData);
+            const response = await axios.post('http://localhost:4000/blogs', {
+                title: formData.title,
+                category: formData.category,
+                description: formData.description
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
             if (response.status === 201) {
                 toast.success('Blog created successfully!');
                 // Reset form
                 setFormData({
                     title: '',
-                    content: '',
-                    category: 'Web'
+                    category: 'Web',
+                    // image: '',
+                    description: ''
                 });
+                // setDraggedImage(null);
             }
         } catch (error) {
             if (error.response) {
@@ -87,21 +120,70 @@ const CreateBlog = () => {
                     </select>
                 </div>
 
+                {/* <div>
+                    <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
+                        Image
+                    </label>
+                    <div
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
+                        onClick={() => fileInputRef.current.click()}
+                        className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-indigo-500 transition-colors"
+                    >
+                        {draggedImage ? (
+                            <img src={draggedImage} alt="Dragged" className="max-h-full max-w-full object-cover rounded" />
+                        ) : (
+                            <p className="text-gray-500">Drag and drop an image here or click to select</p>
+                        )}
+                    </div>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file && file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = () => {
+                                    setFormData({ ...formData, image: reader.result });
+                                    setDraggedImage(reader.result);
+                                };
+                                reader.readAsDataURL(file);
+                            } else {
+                                toast.error('Please select a valid image file.');
+                            }
+                        }}
+                        accept="image/*"
+                        className="hidden"
+                    />
+                    <input
+                        type="url"
+                        id="image"
+                        name="image"
+                        value={formData.image}
+                        onChange={handleChange}
+                        className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        placeholder="Or enter image URL"
+                        required
+                    />
+                </div> */}
+
                 <div>
-                    <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
-                        Content
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                        Description
                     </label>
                     <textarea
-                        id="content"
-                        name="content"
-                        value={formData.content}
+                        id="description"
+                        name="description"
+                        value={formData.description}
                         onChange={handleChange}
-                        rows={10}
+                        rows={3}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Write your blog content here..."
+                        placeholder="Enter a short description"
                         required
                     />
                 </div>
+
+
 
                 <button
                     type="submit"
