@@ -35,7 +35,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/create" element={<CreateBlog />} />
         <Route path="/blog" element={<BlogSection />} />
-        <Route path="/post" element={<BlogPost />} />
+        <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/about" element={<About status={isLoggedIn} toggle={setIsLoggedIn} />} />
 
         {/* Auth Pages */}

@@ -12,6 +12,7 @@ function BlogPost() {
   const [commentLoading, setCommentLoading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likeLoading, setLikeLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -35,9 +36,19 @@ function BlogPost() {
   };
 
   const handleLikeToggle = async () => {
+    if (!user) {
+      toast.error('Please login to like blogs');
+      return;
+    }
+
     setLikeLoading(true);
     try {
-      const response = await axios.post(`http://localhost:4000/blogs/${id}/like`);
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`http://localhost:4000/blogs/${id}/like`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       setIsLiked(response.data.isLiked);
       setBlog(prev => ({
         ...prev,
@@ -53,10 +64,17 @@ function BlogPost() {
   };
 
   useEffect(() => {
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
     const fetchBlog = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/blogs/${id}`);
         setBlog(response.data);
+        setIsLiked(response.data.likes?.includes(user?._id));
       } catch (error) {
         console.error('Error fetching blog:', error);
       } finally {
@@ -75,7 +93,7 @@ function BlogPost() {
 
     fetchBlog();
     fetchComments();
-  }, [id]);
+  }, [id, user?._id]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -135,8 +153,6 @@ function BlogPost() {
                   </a>
                 ))}
               </div>
-
-
             </div>
           </div>
         </div>
