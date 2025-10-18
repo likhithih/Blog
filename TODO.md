@@ -1,0 +1,1 @@
+- [x] Fix JSX syntax error in About.jsx conditional rendering and function call
