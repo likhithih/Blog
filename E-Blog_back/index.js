@@ -12,6 +12,9 @@ app.use(cors());
 app.use(express.urlencoded({ limit: '10mb' }))
 app.use(express.json({ limit: '10mb' }));
 
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
+
 connectDB(process.env.MONGODB_URL);
 
 app.use('/', routes);

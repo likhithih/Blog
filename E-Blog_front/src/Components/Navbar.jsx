@@ -1,11 +1,16 @@
 import logo from '../assets/Blog-logo-Nav.png';
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import ProfileSidebar from './ProfileSidebar';
+import { useTheme } from '../contexts/ThemeContext';
+import { FaMoon, FaSun, FaBars, FaTimes, FaHome, FaInfo, FaBlog, FaPlus, FaUser } from 'react-icons/fa';
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { darkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -21,148 +26,197 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white">
-      <header className="fixed inset-x-0 top-0 z-50">
-        <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8 bg-gray-800">
-          <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5 group">
-              <span className="sr-only">E Blog</span>
+    <div className={`fixed inset-x-0 top-0 z-50 ${darkMode ? 'bg-gray-900/80 backdrop-blur-md' : 'bg-white/80 backdrop-blur-md'} border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <NavLink to="/home" className="flex items-center group">
               <img
                 src={logo}
-                alt=""
-                className="h-15 w-30 logo-transition transition-transform duration-300 group-hover:scale-110 active:scale-95"
+                alt="E Blog"
+                className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
               />
-            </a>
+            </NavLink>
           </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              command="show-modal"
-              commandfor="mobile-menu"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white hover:bg-gray-700 active:scale-95 transition"
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true" className="size-6">
-                <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            <Link
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <NavLink
               to="/home"
-              className="text-sm/6 font-bold text-white hover:text-gray-300 hover:bg-gray-700 rounded-md px-2 py-1 transition duration-200 active:scale-95"
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                  isActive
+                    ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                    : darkMode
+                    ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                }`
+              }
             >
+              <FaHome size={16} />
               Home
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/about"
-              className="text-sm/6 font-semibold text-white hover:text-gray-300 hover:bg-gray-700 rounded-md px-2 py-1 transition duration-200 active:scale-95"
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                  isActive
+                    ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                    : darkMode
+                    ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                }`
+              }
             >
+              <FaInfo size={16} />
               About
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/blog"
-              className="text-sm/6 font-semibold text-white hover:text-gray-300 hover:bg-gray-700 rounded-md px-2 py-1 transition duration-200 active:scale-95"
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                  isActive
+                    ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                    : darkMode
+                    ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                }`
+              }
             >
+              <FaBlog size={16} />
               Blogs
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/create"
-              className="text-sm/6 font-semibold text-white hover:text-gray-300 hover:bg-gray-700 rounded-md px-2 py-1 transition duration-200 active:scale-95"
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                  isActive
+                    ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                    : darkMode
+                    ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                }`
+              }
             >
+              <FaPlus size={16} />
               Create Blog
-            </Link>
+            </NavLink>
           </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
+
+          {/* Right side: Theme toggle and Profile */}
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={toggleDarkMode}
+              className={`p-3 rounded-full transition-all duration-300 hover:scale-110 shadow-lg ${
+                darkMode
+                  ? 'bg-gray-700 text-yellow-400 hover:bg-gray-600 hover:shadow-yellow-400/20'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:shadow-gray-400/20'
+              }`}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+            </button>
             {user && (
-              <img
-                src={user.profileImage}
-                alt="Profile"
-                className="h-8 w-8 rounded-full cursor-pointer hover:ring-2 hover:ring-purple-500 hover:bg-purple-600/20 active:scale-95 transition-all duration-300"
-                onClick={() => setIsOpen(!isOpen)}
-              />
+              <div className="relative">
+                <img
+                  src="https://avatars.githubusercontent.com/u/124576166?v=4"
+                  alt="Profile"
+                  className="h-10 w-10 rounded-full cursor-pointer hover:ring-2 hover:ring-indigo-500 transition-all duration-300 hover:scale-105 shadow-lg"
+                  onClick={() => setIsOpen(!isOpen)}
+                />
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+              </div>
             )}
-          
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`md:hidden p-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg ${
+                darkMode
+                  ? 'text-gray-300 hover:bg-gray-700 hover:shadow-gray-600/20'
+                  : 'text-gray-700 hover:bg-gray-100 hover:shadow-gray-400/20'
+              }`}
+              aria-label="Toggle mobile menu"
+            >
+              {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
           </div>
         </nav>
 
-        <dialog id="mobile-menu" className="backdrop:bg-transparent lg:hidden">
-          <div tabIndex="0" className="fixed inset-0 focus:outline-none">
-            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-              <div className="flex items-center justify-between">
-                <a href="#" className="-m-1.5 p-1.5">
-                  <span className="sr-only">Your Company</span>
-                  <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="" className="h-8 w-auto" />
-                </a>
-                <button type="button" command="close" commandfor="mobile-menu" className="-m-2.5 rounded-md p-2.5 text-gray-700 hover:text-gray-900 active:scale-95 transition">
-                  <span className="sr-only">Close menu</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true" className="size-6">
-                    <path d="M6 18 18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </div>
-              <div className="mt-6 flow-root">
-                <div className="-my-6 divide-y divide-gray-500/10">
-                  <div className="space-y-2 py-6">
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-200 hover:text-gray-900 transition duration-200 active:scale-95">About</a>
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-200 hover:text-gray-900 transition duration-200 active:scale-95">Features</a>
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-200 hover:text-gray-900 transition duration-200 active:scale-95">Marketplace</a>
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-200 hover:text-gray-900 transition duration-200 active:scale-95">Company</a>
-                  </div>
-                  <div className="py-6">
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-200 transition duration-200 active:scale-95">Log out</a>
-                  </div>
-                </div>
-              </div>
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div className={`md:hidden border-t ${darkMode ? 'border-gray-700 bg-gray-900/95' : 'border-gray-200 bg-white/95'} backdrop-blur-md`}>
+            <div className="px-2 pt-2 pb-3 space-y-2">
+              <NavLink
+                to="/home"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-3 text-base font-medium transition-all duration-300 hover:scale-105 rounded-lg ${
+                    isActive
+                      ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                      : darkMode
+                      ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                  }`
+                }
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FaHome size={18} />
+                Home
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-3 text-base font-medium transition-all duration-300 hover:scale-105 rounded-lg ${
+                    isActive
+                      ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                      : darkMode
+                      ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                  }`
+                }
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FaInfo size={18} />
+                About
+              </NavLink>
+              <NavLink
+                to="/blog"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-3 text-base font-medium transition-all duration-300 hover:scale-105 rounded-lg ${
+                    isActive
+                      ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                      : darkMode
+                      ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                  }`
+                }
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FaBlog size={18} />
+                Blogs
+              </NavLink>
+              <NavLink
+                to="/create"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-3 text-base font-medium transition-all duration-300 hover:scale-105 rounded-lg ${
+                    isActive
+                      ? 'bg-lime-400 text-white shadow-lg shadow-lime-400/30'
+                      : darkMode
+                      ? 'text-gray-300 hover:bg-gray-700 hover:text-lime-400'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-lime-400'
+                  }`
+                }
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FaPlus size={18} />
+                Create Blog
+              </NavLink>
             </div>
           </div>
-        </dialog>
+        )}
       </header>
 
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40"
-          onClick={() => setIsOpen(false)}
-        ></div>
-      )}
-
-      {/* Sidebar Profile Box */}
-      <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white/10 backdrop-blur-xl border-l border-white/20 shadow-2xl z-50 transform transition-transform duration-500 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex justify-between items-center px-6 py-4 border-b border-white/20">
-          <h2 className="text-white text-lg font-semibold">Profile</h2>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-white/70 hover:text-white transition-transform duration-200 active:scale-95"
-          >
-            ✕
-          </button>
-        </div>
-
-        <div className="p-6 text-center">
-          <img
-            src={user?.profileImage}
-            alt="Profile"
-            className="w-24 h-24 mx-auto rounded-full border-4 border-purple-400 shadow-lg mb-4 hover:scale-105 hover:bg-purple-100 transition-all duration-300 active:scale-95"
-          />
-          <h2 className="text-2xl font-semibold text-white mb-1">{user?.name || "User"}</h2>
-          <p className="text-purple-200 font-medium mb-1">{user?.jobTitle || "UI/UX Designer & Developer"}</p>
-          <p className="text-white/70 mb-6">Gender: {user?.gender || "Male"}</p>
-          <button
-            onClick={() => {
-              setIsOpen(false);
-              handleLogout();
-            }}
-            className="w-full py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-full hover:from-pink-600 hover:to-purple-700 shadow-lg transition-all duration-300 active:scale-95"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      <ProfileSidebar isOpen={isOpen} setIsOpen={setIsOpen} user={user} handleLogout={handleLogout} />
     </div>
   );
 };

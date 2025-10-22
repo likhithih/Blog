@@ -1,25 +1,10 @@
 import express from "express";
-import { signup, login } from "../controllers/authController.js";
-import { createBlog, getBlogs, getBlogById } from "../controllers/blogController.js";
+import { signup, login, getAllUsers, deleteUser } from "../controllers/authController.js";
+import { createBlog, getBlogs, getBlogById, deleteBlog, updateBlog, upload } from "../controllers/blogController.js";
 import { createComment, getCommentsByBlog } from "../controllers/commentController.js";
 import authenticate from '../middleware/authenticate.js';
-import multer from 'multer';
-import path from 'path';
 
 const router = express.Router();
-
-// Configure Multer for image storage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(process.cwd(), '../E-Blog_front/public/images'));
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, 'blog-' + uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({ storage });
 
 // Signup route
 router.post('/signup', signup);
@@ -27,9 +12,14 @@ router.post('/signup', signup);
 // Login route
 router.post('/login',login);
 
+// Get all users (admin only)
+router.get('/users', authenticate, getAllUsers);
+router.delete('/users/:id', authenticate, deleteUser);
+
+
 // Blog routes
-router.route('/blogs').post(createBlog).get(getBlogs);
-router.route('/blogs/:id').get(getBlogById);
+router.route('/blogs').post(upload.single('image'), createBlog).get(getBlogs);
+router.route('/blogs/:id').get(getBlogById).delete(authenticate, deleteBlog).put(authenticate, updateBlog);
 
 
 // Comment routes

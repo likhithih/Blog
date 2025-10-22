@@ -30,8 +30,10 @@ export default function Login() {
                 // Store user data and token in localStorage
                 localStorage.setItem('user', JSON.stringify(response.data.user));
                 localStorage.setItem('token', response.data.token);
-                // Redirect to home or dashboard
-                setTimeout(() => { navigate('/home') }, 2000)
+                // Redirect to admin if role is admin, else home
+                const userRole = response.data.user.role;
+                const redirectPath = userRole === 'admin' ? '/admin' : '/home';
+                setTimeout(() => { navigate(redirectPath) }, 2000)
             }
         } catch (error) {
             if (error.response) {

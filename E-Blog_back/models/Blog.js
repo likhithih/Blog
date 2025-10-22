@@ -17,15 +17,18 @@ const blogSchema = new mongoose.Schema({
         trim: true
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.String,
         ref: 'User',
-        required: true
     },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
     }],
 
+    image: {
+        type: String,
+        default: ''
+    },
     createdAt: {
         type: Date,
         default: Date.now

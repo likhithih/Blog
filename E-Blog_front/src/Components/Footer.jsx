@@ -1,7 +1,9 @@
 import React from "react";
 import logo from '../assets/Favicon.png'
+import { useTheme } from '../contexts/ThemeContext';
 
 const Footer = () => {
+  const { darkMode } = useTheme();
   return (
     <footer className="bg-gray-900 text-white pt-12 pb-8">
       <div className="container mx-auto px-4">

@@ -1,52 +1,50 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function Card() {
-    const cards = [
-        {
-            img: "https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?w=1200&h=800&auto=format&fit=crop&q=60",
-            title: "Color Psychology in UI: How to Choose the Right Palette",
-            category: "UI/UX design"
-        },
-        {
-            img: "https://images.unsplash.com/photo-1714974528646-ea024a3db7a7?w=1200&h=800&auto=format&fit=crop&q=60",
-            title: "Color Psychology in UI: How to Choose the Right Palette",
-            category: "UI/UX design"
-        },
-        {
-            img: "https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?w=1200&h=800&auto=format&fit=crop&q=60",
-            title: "Color Psychology in UI: How to Choose the Right Palette",
-            category: "UI/UX design"
-        },
-        {
-            img: "https://images.unsplash.com/photo-1713947501966-34897f21162e?w=1200&h=800&auto=format&fit=crop&q=60",
-            title: "Color Psychology in UI: How to Choose the Right Palette",
-            category: "UI/UX design"
-        },
-        {
-            img: "https://images.unsplash.com/photo-1714974528646-ea024a3db7a7?w=1200&h=800&auto=format&fit=crop&q=60",
-            title: "Color Psychology in UI: How to Choose the Right Palette",
-            category: "UI/UX design"
-        },
-        {
-            img: "https://images.unsplash.com/photo-1714974528646-ea024a3db7a7?w=1200&h=800&auto=format&fit=crop&q=60",
-            title: "Color Psychology in UI: How to Choose the Right Palette",
-            category: "UI/UX design"
-        },
-    ];
+  const { darkMode } = useTheme();
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-    const duplicatedCards = [...cards, ...cards];
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await axios.get("http://localhost:4000/blogs");
+                const formattedBlogs = response.data.map((blog) => ({
+                    id: blog._id,
+                    image: blog.image,
+                    title: blog.title,
+                    category: blog.category
+                }));
+                setCards(formattedBlogs);
+            } catch (error) {
+                console.error("Error fetching blogs:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBlogs();
+    }, []);
+
+    const duplicatedCards = cards.length > 4 ? [...cards, ...cards] : cards;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [transitionEnabled, setTransitionEnabled] = useState(true);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prev) => prev + 1);
-        }, 2000);
-        return () => clearInterval(interval);
-    }, []);
+        if (cards.length > 4) {
+            const interval = setInterval(() => {
+                setCurrentIndex((prev) => prev + 1);
+            }, 2000);
+            return () => clearInterval(interval);
+        }
+    }, [cards.length]);
 
     useEffect(() => {
-        if (currentIndex === cards.length) {
+        if (cards.length > 4 && currentIndex === cards.length) {
             setTransitionEnabled(false);
             setCurrentIndex(0);
             setTimeout(() => setTransitionEnabled(true), 0);
@@ -79,8 +77,8 @@ export default function Card() {
                     width: 288px;
                 }
             `}</style>
-            <h1 className="text-3xl font-semibold text-center mx-auto">Latest Blog</h1>
-            <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">
+            <h1 className={`text-3xl font-semibold text-center mx-auto ${darkMode ? 'text-white' : 'text-gray-900'}`}>Latest Blog</h1>
+            <p className={`text-sm text-center mt-2 max-w-lg mx-auto ${darkMode ? 'text-gray-300' : 'text-slate-500'}`}>
                 Welcome to a space where ideas turn into stories and stories spark inspiration.
                 Here, we explore creativity, learning, and life sharing thoughts that motivate, educate, and connect people across different journeys.
             </p>
@@ -89,9 +87,9 @@ export default function Card() {
                 <div className="carousel-container">
                     <div className="carousel-slider" style={{ transform: `translateX(-${currentIndex * 320}px)`, transition: transitionEnabled ? 'transform 0.5s ease' : 'none' }}>
                         {duplicatedCards.map((card, index) => (
-                            <div key={index} className={`carousel-slide transition-all duration-500 ${(index - currentIndex) === 1 ? 'scale-110 translate-y-[-10px]' : 'scale-100'} hover:-translate-y-0.5`}>
-                                <img className="rounded-xl" src={card.img} alt="" />
-                                <h3 className="text-base text-slate-900 font-medium mt-3">{card.title}</h3>
+                            <div key={index} className={`carousel-slide transition-all duration-500} hover:-translate-y-1.5 cursor-pointer`} onClick={() => navigate(`/blog/${card.id}`)}>
+                                <img className="w-full h-48 object-cover rounded-xl" src={`http://localhost:4000/uploads/${card.image}`} alt="" />
+                                <h3 className={`text-base font-medium mt-3 ${darkMode ? 'text-white' : 'text-slate-900'}`}>{card.title}</h3>
                                 <p className="text-xs text-indigo-600 font-medium mt-1">{card.category}</p>
                             </div>
                         ))}

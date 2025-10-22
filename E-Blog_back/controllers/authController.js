@@ -2,6 +2,19 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({}, '-password -confirmPassword').sort({ createdAt: -1 });
+        res.json({
+            message: 'Users retrieved successfully',
+            users
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 export const signup = async (req, res) => {
     try {
         const { username, email, password, confirmPassword } = req.body;
@@ -49,6 +62,23 @@ export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        // Special case for admin login
+        if (email === 'admin@gmail.com' && password === 'admin') {
+            // Generate JWT token for admin
+            const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '1h' });
+
+            return res.json({
+                message: 'Login successful',
+                token,
+                user: {
+                    id: 'admin',
+                    username: 'admin',
+                    email: 'admin@gmail.com',
+                    role: 'admin'
+                }
+            });
+        }
+
         // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
@@ -71,7 +101,7 @@ export const login = async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                profileImage: user.profileImage
+                role: user.role
             }
         });
     } catch (error) {
@@ -79,3 +109,25 @@ export const login = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Prevent deleting admin
+        if (id === 'admin') {
+            return res.status(400).json({ message: 'Cannot delete admin user' });
+        }
+
+        const user = await User.findByIdAndDelete(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+

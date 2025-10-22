@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useTheme } from '../contexts/ThemeContext';
 
 const featuresSection1 = [
   {
@@ -74,6 +75,7 @@ const featuresSection2 = [
 ];
 
 const LandingBody = () => {
+  const { darkMode } = useTheme();
   const imagesSection1 = ["/bloger.jpg", "/Blog creating Back Cover.jpg"];
   const imagesSection2 = ["/Meta Verse back cover.jpg", "/social.jpg"];
 
@@ -92,7 +94,11 @@ const LandingBody = () => {
   const renderFeature = (feature, idx) => (
     <motion.div
       key={idx}
-      className="relative p-5 md:p-6 flex items-start gap-5 rounded-3xl border border-gray-100 bg-white shadow-md cursor-pointer overflow-hidden group transition-all duration-300"
+      className={`relative p-5 md:p-6 flex items-start gap-5 rounded-3xl border ${
+        darkMode
+          ? 'border-gray-700 bg-gray-800 shadow-lg'
+          : 'border-gray-100 bg-white shadow-md'
+      } cursor-pointer overflow-hidden group transition-all duration-300`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: idx * 0.15, duration: 0.6, ease: "easeInOut" }}
@@ -108,8 +114,12 @@ const LandingBody = () => {
       />
       <div className="flex-shrink-0 z-10">{feature.icon}</div>
       <motion.div className="flex flex-col gap-1 p-3 rounded-xl w-full z-10" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
-        <h3 className="text-lg md:text-xl font-semibold text-gray-900">{feature.title}</h3>
-        <p className="text-sm md:text-base text-gray-700 leading-relaxed">{feature.desc}</p>
+        <h3 className={`text-lg md:text-xl font-semibold ${
+          darkMode ? 'text-gray-100' : 'text-gray-900'
+        }`}>{feature.title}</h3>
+        <p className={`text-sm md:text-base leading-relaxed ${
+          darkMode ? 'text-gray-300' : 'text-gray-700'
+        }`}>{feature.desc}</p>
       </motion.div>
     </motion.div>
   );
@@ -131,7 +141,9 @@ const LandingBody = () => {
           transition={{ duration: 1 }}
         >
           <motion.h1
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            className={`text-4xl md:text-5xl font-bold mb-4 ${
+              darkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
@@ -139,7 +151,9 @@ const LandingBody = () => {
             Welcome to Our Blog Website
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-gray-700 italic"
+            className={`text-lg md:text-xl italic ${
+              darkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.6 }}
@@ -171,7 +185,7 @@ const LandingBody = () => {
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
-          opacity: 0.12;
+          opacity: ${darkMode ? '0.08' : '0.12'};
           z-index: -1;
         }
       `}</style>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../contexts/ThemeContext";
 
 const HeroSection = () => {
+  const { darkMode } = useTheme();
   const fullText = "Welcome to our world of words";
   const [text, setText] = useState("");
 
@@ -23,11 +25,11 @@ const HeroSection = () => {
         <div className="absolute bottom-[-12rem] right-0 w-[28rem] h-[28rem] bg-pink-200 opacity-20 rounded-full animate-pulse-slow blur-3xl"></div>
 
         <div className="mx-auto max-w-2xl pt-2 pb-8 sm:mt-24 sm:pt-24 sm:pb-12 lg:mt-20 lg:pt-15 lg:pb-22 text-center">
-          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-gray-900 opacity-0 animate-fadeSlide">
+          <h1 className={`text-5xl sm:text-7xl font-bold tracking-tight opacity-0 animate-fadeSlide ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             {text}
           </h1>
 
-          <p className="mt-8 text-lg sm:text-xl text-gray-500 opacity-0 animate-fadeSlide delay-200">
+          <p className={`mt-8 text-lg sm:text-xl opacity-0 animate-fadeSlide delay-200 ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
             A blog built for curious minds uncovering the trends, tools, and technologies shaping tomorrow’s digital world.
           </p>
 
@@ -40,7 +42,7 @@ const HeroSection = () => {
             </Link>
             <Link
               to="/about"
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition"
+              className={`px-6 py-3 border rounded-md transition ${darkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-800' : 'border-gray-300 text-gray-700 hover:bg-gray-100'}`}
             >
               Learn More
             </Link>

@@ -3,10 +3,13 @@ import HeroSection from "../Components/HeroSection";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import ReviewSection from "../Components/ReviewSection";
+import { useTheme } from "../contexts/ThemeContext";
 
 function Home() {
+  const { darkMode } = useTheme();
+
   return (
-    <div className="relative min-h-screen bg-white overflow-hidden">
+    <div className={`relative min-h-screen overflow-hidden transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Multiple animated blobs */}
       <div className="absolute w-72 h-72 bg-blue-400 opacity-40 rounded-full animate-blob z-0 top-[-10%] left-[-10%]"></div>
       <div className="absolute w-80 h-80 bg-pink-400 opacity-40 rounded-full animate-blob z-0 top-[10%] right-[-10%] animation-delay-2000"></div>

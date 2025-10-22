@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Nav_bl from "../Components/Nav_bl";
+import { useTheme } from "../contexts/ThemeContext";
 
 function About({ status, toggle }) {
+  const { darkMode } = useTheme();
   const [showMoreFirst, setShowMoreFirst] = useState(false);
   const [showMoreSecond, setShowMoreSecond] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -54,8 +56,8 @@ function About({ status, toggle }) {
             </div>
           </div>
 
-          <div className="text-sm text-slate-600 max-w-lg">
-            <h1 className="text-xl uppercase font-semibold text-slate-700">
+          <div className={`text-sm max-w-lg ${darkMode ? 'text-gray-300' : 'text-slate-600'}`}>
+            <h1 className={`text-xl uppercase font-semibold ${darkMode ? 'text-gray-200' : 'text-slate-700'}`}>
               What we do?
             </h1>
             <div className="w-24 h-[3px] rounded-full bg-gradient-to-r from-indigo-600 to-[#DDD9FF]"></div>
@@ -111,8 +113,8 @@ function About({ status, toggle }) {
 
         {/* -------- Section 2: What We Create -------- */}
         <section className="flex flex-col md:flex-row items-center justify-center gap-10 max-md:px-4">
-          <div className="text-sm text-slate-600 max-w-lg">
-            <h1 className="text-xl uppercase font-semibold text-slate-700">
+          <div className={`text-sm max-w-lg ${darkMode ? 'text-gray-300' : 'text-slate-600'}`}>
+            <h1 className={`text-xl uppercase font-semibold ${darkMode ? 'text-gray-200' : 'text-slate-700'}`}>
               What we create?
             </h1>
             <div className="w-24 h-[3px] rounded-full bg-gradient-to-r from-indigo-600 to-[#DDD9FF]"></div>

@@ -4,17 +4,20 @@ import { toast } from 'react-toastify';
 import { Editor } from '@tinymce/tinymce-react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
+import Footer from '../Components/Footer';
+import { FiUpload } from 'react-icons/fi';
+import { useTheme } from '../contexts/ThemeContext';
 
 const CreateBlog = () => {
+    const { darkMode } = useTheme();
     const [formData, setFormData] = useState({
         title: '',
         category: 'Web',
         description: ''
     });
+    const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    // const [draggedImage, setDraggedImage] = useState(null);
-    // const fileInputRef = useRef(null);
 
     const handleChange = (e) => {
         setFormData({
@@ -23,37 +26,41 @@ const CreateBlog = () => {
         });
     };
 
-    // const handleDragOver = (e) => {
-    //     e.preventDefault();
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+        }
+    };
 
-    // const handleDrop = (e) => {
-    //     e.preventDefault();
-    //     const files = e.dataTransfer.files;
-    //     if (files.length > 0) {
-    //         const file = files[0];
-    //         const reader = new FileReader();
-    //         reader.onload = () => {
-    //             setFormData({ ...formData, image: reader.result });
-    //             setDraggedImage(reader.result);
-    //         };
-    //         reader.readAsDataURL(file);
-    //     } else {
-    //         toast.error('Please drop a valid image file.');
-    //     }
-    // };
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            setImage(file);
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:4000/blogs', {
-                title: formData.title,
-                category: formData.category,
-                description: formData.description
-            }, {
+            const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
+            formDataToSend.append('category', formData.category);
+            formDataToSend.append('description', formData.description);
+            if (image) {
+                formDataToSend.append('image', image);
+            }
+
+            const response = await axios.post('http://localhost:4000/blogs', formDataToSend, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
             });
 
@@ -65,10 +72,9 @@ const CreateBlog = () => {
                 setFormData({
                     title: '',
                     category: 'Web',
-                    // image: '',
                     description: ''
                 });
-                // setDraggedImage(null);
+                setImage(null);
             }
         } catch (error) {
             if (error.response) {
@@ -85,12 +91,12 @@ const CreateBlog = () => {
     return (
         <>
             <Navbar />
-            <div className="max-w-4xl mx-auto p-6 mt-30">
-                <h1 className="text-3xl font-bold text-gray-900 mb-8">Create New Blog</h1>
+            <div className={`max-w-4xl mx-auto p-6 mt-30 mb-30 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+                <h1 className={`text-3xl font-bold mb-8 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Create New Blog</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="title" className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                             Title
                         </label>
                         <input
@@ -99,14 +105,14 @@ const CreateBlog = () => {
                             name="title"
                             value={formData.title}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${darkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300 bg-white text-gray-900'}`}
                             placeholder="Enter blog title"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="category" className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                             Category
                         </label>
                         <select
@@ -114,73 +120,63 @@ const CreateBlog = () => {
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${darkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300 bg-white text-gray-900'}`}
                         >
                             <option value="Web">Web</option>
                             <option value="AI">AI</option>
                             <option value="Fullstack">Fullstack</option>
                             <option value="Testing">Testing</option>
-                            <option value="Marketing">Marketing</option>
+                            {/* <option value="Marketing">Marketing</option>
                             <option value="Sales">Sales</option>
-                            <option value="Business">Business</option>
+                            <option value="Business">Business</option> */}
                         </select>
                     </div>
 
-                    {/* <div>
-                    <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
-                        Image
-                    </label>
-                    <div
-                        onDragOver={handleDragOver}
-                        onDrop={handleDrop}
-                        onClick={() => fileInputRef.current.click()}
-                        className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-indigo-500 transition-colors"
-                    >
-                        {draggedImage ? (
-                            <img src={draggedImage} alt="Dragged" className="max-h-full max-w-full object-cover rounded" />
-                        ) : (
-                            <p className="text-gray-500">Drag and drop an image here or click to select</p>
-                        )}
+                    <div>
+                        <label htmlFor="image" className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                            Image
+                        </label>
+                        <div
+                            className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer hover:border-indigo-500 transition-colors ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
+                            onDrop={handleDrop}
+                            onDragOver={handleDragOver}
+                            onClick={() => document.getElementById('image').click()}
+                        >
+                            {image ? (
+                                <div className="flex flex-col items-center">
+                                    <img
+                                        src={URL.createObjectURL(image)}
+                                        alt="Preview"
+                                        className="max-w-full max-h-48 object-cover rounded-lg mb-2"
+                                    />
+                                    <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{image.name}</p>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center">
+                                    <FiUpload className={`text-4xl mb-2 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                                    <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Drag and drop an image here, or click to select</p>
+                                    <p className={`text-sm mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Supported formats: JPG, PNG, GIF</p>
+                                </div>
+                            )}
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                            />
+                        </div>
                     </div>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={(e) => {
-                            const file = e.target.files[0];
-                            if (file && file.type.startsWith('image/')) {
-                                const reader = new FileReader();
-                                reader.onload = () => {
-                                    setFormData({ ...formData, image: reader.result });
-                                    setDraggedImage(reader.result);
-                                };
-                                reader.readAsDataURL(file);
-                            } else {
-                                toast.error('Please select a valid image file.');
-                            }
-                        }}
-                        accept="image/*"
-                        className="hidden"
-                    />
-                    <input
-                        type="url"
-                        id="image"
-                        name="image"
-                        value={formData.image}
-                        onChange={handleChange}
-                        className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Or enter image URL"
-                        required
-                    />
-                </div> */}
 
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="description" className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                             Description
                         </label>
                         <Editor
-                            apiKey="trw65qk6tctvxf1z1v4pu3mb98y2dc4t8peggm20qq58v042" // Replace with your TinyMCE API key
+                            apiKey="bq9avf204fn63uuywobbss1q11enpyjqqi2x4k1fp6xhmsff" // Replace with your TinyMCE API key
                             value={formData.description}
-                            onEditorChange={(content) => { setFormData({ ...formData, description: content }); console.log(content) }}
+                            onEditorChange={(content) => setFormData({ ...formData, description: content })}
                             initialValue="<p>This is the initial content of the editor.</p>"
                             init={{
                                 height: 300,
@@ -194,19 +190,32 @@ const CreateBlog = () => {
                                 toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
                             }}
                         />
+                        {/* <textarea
+                            id="description"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Enter blog description"
+                            rows="10"
+                            required
+                        /> */}
                     </div>
 
+                    <center>
 
 
-                    <button
-                        type="submit"
-                        // disabled={loading}
-                        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                        {loading ? 'Creating...' : 'Create Blog'}
-                    </button>
+                        <button
+                            type="submit"
+                            // disabled={loading}
+                            className="w-50 bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                            {loading ? 'Creating...' : 'Create Blog'}
+                        </button>
+                    </center>
                 </form>
             </div>
+            <Footer />
         </>
     );
 };
