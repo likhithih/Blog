@@ -1,4 +1,4 @@
-import logo from '../assets/Blog-logo-Nav.png';
+import logo from '../assets/Logos/E-Blog.png';
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ProfileSidebar from './ProfileSidebar';
