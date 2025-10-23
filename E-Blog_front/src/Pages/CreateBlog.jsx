@@ -58,9 +58,11 @@ const CreateBlog = () => {
                 formDataToSend.append('image', image);
             }
 
+            const token = localStorage.getItem('token');
             const response = await axios.post('http://localhost:4000/blogs', formDataToSend, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
 

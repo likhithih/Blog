@@ -39,16 +39,18 @@ export const createBlog = async (req, res) => {
         const { title, category, description } = req.body;
         const image = req.file ? req.file.filename : '';
 
-        const username = await User.findOne().then(user => {
-            return user.username; // Hardcoded username for testing
-        });
+        // Get the authenticated user's username
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
         const newBlog = new Blog({
             title,
             category,
             description,
             image,
-            author: username // Hardcoded username for testing
+            author: user.username // Use authenticated user's username
         });
 
         await newBlog.save();

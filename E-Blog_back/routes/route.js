@@ -54,7 +54,7 @@ router.put('/users/profile', authenticate, profileUpload.single('profilePic'), u
 
 
 // Blog routes
-router.route('/blogs').post(upload.single('image'), createBlog).get(getBlogs);
+router.route('/blogs').post(authenticate, upload.single('image'), createBlog).get(getBlogs);
 router.route('/blogs/:id').get(getBlogById).delete(authenticate, authorizeAdmin, deleteBlog).put(authenticate, authorizeAdmin, updateBlog);
 
 
