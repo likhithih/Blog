@@ -46,7 +46,7 @@ export default function Signup() {
             if (response.status === 201) {
                 toast.success('User created successfully!');
                 // Redirect to home or dashboard
-                setTimeout(() => { navigate('/login') }, 2000)
+                setTimeout(() => { navigate('/home') }, 2000)
             }
         } catch (error) {
             if (error.response) {

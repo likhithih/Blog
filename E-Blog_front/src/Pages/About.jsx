@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Nav_bl from "../Components/Nav_bl";
@@ -8,19 +8,13 @@ function About({ status, toggle }) {
   const { darkMode } = useTheme();
   const [showMoreFirst, setShowMoreFirst] = useState(false);
   const [showMoreSecond, setShowMoreSecond] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const user = localStorage.getItem('user');
-    setIsLoggedIn(!!user);
-  }, []);
 
   const toggleShowMoreFirst = () => setShowMoreFirst(!showMoreFirst);
   const toggleShowMoreSecond = () => setShowMoreSecond(!showMoreSecond);
 
   return (
     <>
-      {isLoggedIn ? <Navbar /> : <Nav_bl />}
+      {status ? <Navbar /> : <Nav_bl />}
       <div className="pt-40 mb-20 ">
         <section className="flex flex-col md:flex-row items-center justify-center gap-10 max-md:px-4 mb-16">
           <div className="relative shadow-2xl shadow-indigo-600/40 rounded-2xl overflow-hidden shrink-0">
@@ -175,7 +169,7 @@ function About({ status, toggle }) {
           </div>
         </section>
       </div>
-      {isLoggedIn ? <Footer /> : null}
+      {status ? <Footer /> : null}
     </>
   );
 }

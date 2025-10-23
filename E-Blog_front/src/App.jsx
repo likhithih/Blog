@@ -23,13 +23,13 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
 
   return (
     <ThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter>   
         <Routes>
           {/* Landing Page */}
           <Route path="/" element={<><Nav_bl /><LandingBody /></>} />
