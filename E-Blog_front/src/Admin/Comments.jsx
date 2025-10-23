@@ -162,7 +162,7 @@ const Comments = () => {
                         <div className="bg-gradient-to-br from-green-500 to-teal-600 p-1 rounded-full mr-2">
                           <FaUser className="text-white text-xs" />
                         </div>
-                        {comment.author?.username || 'bro'}
+                        {comment.author?.username || 'Annonomyous'}
                       </div>
                     </td>
                     <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
