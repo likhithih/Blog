@@ -17,8 +17,8 @@ const ProfileSidebar = ({ isOpen, setIsOpen, user, handleLogout }) => {
             {/* Sidebar Profile Box */}
             <div
                 className={`fixed top-0 right-0 w-80 h-full ${darkMode
-                    ? 'bg-gradient-to-b from-slate-900 to-slate-800 border-slate-700'
-                    : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'
+                    ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 border-slate-700'
+                    : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-slate-200'
                     } border-l shadow-2xl z-50 transform transition-all duration-500 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
                     }`}
             >
@@ -79,16 +79,16 @@ const ProfileSidebar = ({ isOpen, setIsOpen, user, handleLogout }) => {
                             </div>
                         </div>
 
-                        <div className={`flex items-center gap-3 p-3 rounded-lg ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
+                        <div className={`flex items-center gap-3 p-4 rounded-xl shadow-md ${darkMode ? 'bg-gradient-to-r from-slate-800 to-slate-700 border border-slate-600' : 'bg-gradient-to-r from-slate-100 to-slate-50 border border-slate-200'}`}>
                             <FaEnvelope className={`text-blue-500`} size={16} />
-                            <span className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                            <span className={`text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
                                 {user?.email}
                             </span>
                         </div>
 
-                        <div className={`flex items-center gap-3 p-3 rounded-lg ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
+                        <div className={`flex items-center gap-3 p-4 rounded-xl shadow-md ${darkMode ? 'bg-gradient-to-r from-slate-800 to-slate-700 border border-slate-600' : 'bg-gradient-to-r from-slate-100 to-slate-50 border border-slate-200'}`}>
                             <FaUser className={`text-green-500`} size={16} />
-                            <span className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                            <span className={`text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
                                 {user?.role === 'admin' ? 'Administrator' : 'Regular User'}
                             </span>
                         </div>
