@@ -15,10 +15,10 @@ app.use(express.json({ limit: '10mb' }));
 // Serve static files from uploads directory
 app.use('/uploads', express.static('uploads'));
 
-connectDB(process.env.MONGODB_URL);
+connectDB(process.env.MONGODB_URL || 'mongodb://localhost:27017/eblog');
 
 app.use('/', routes);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server started successfully at http://localhost:${process.env.PORT}`)
+app.listen(process.env.PORT || 4000, () => {
+    console.log(`Server started successfully at http://localhost:${process.env.PORT || 4000}`)
 })

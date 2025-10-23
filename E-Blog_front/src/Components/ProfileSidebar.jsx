@@ -44,7 +44,6 @@ const ProfileSidebar = ({ isOpen, setIsOpen, user, handleLogout }) => {
                             alt="Profile"
                             className="w-28 h-28 rounded-full border-4 border-blue-500 shadow-xl hover:scale-105 transition-all duration-300"
                         />
-                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-4 border-white"></div>
                         <button
                             onClick={() => {
                                 // Handle profile picture change
