@@ -14,6 +14,9 @@ export const createComment = async (req, res) => {
 
         await newComment.save();
 
+        // Populate the author before sending response
+        await newComment.populate('author', 'username email');
+
         // Add comment to blog's comments array
         await Blog.findByIdAndUpdate(blogId, { $push: { comments: newComment._id } });
 

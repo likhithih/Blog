@@ -137,7 +137,7 @@ function BlogPost() {
                 </div>
                 <div>
                   <p className="text-sm md:text-base font-medium">Written by</p>
-                  <p className="text-sm md:text-base text-white/80">{blog.author || 'Anonymous'}</p>
+                  <p className="text-sm md:text-base text-white/80">{blog.author || 'bro'}</p>
                 </div>
               </div>
 
@@ -296,12 +296,12 @@ function BlogPost() {
                 <div key={comment._id} className={`${darkMode ? 'bg-gradient-to-r from-gray-800 to-gray-700 border-gray-600' : 'bg-gradient-to-r from-gray-50 to-gray-100 border-gray-300'} p-6 rounded-xl border hover:shadow-md transition-all duration-200`}>
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
-                      {comment.author?.name?.charAt(0)?.toUpperCase() || 'A'}
+                      {comment.author?.username?.charAt(0)?.toUpperCase() || 'A'}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
                         <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} text-lg`}>
-                          {comment.author?.name || 'Anonymous'}
+                          {comment.author?.username || 'Anonymous'}
                         </p>
                         <span className={`text-sm ${darkMode ? 'text-gray-400 bg-gray-600' : 'text-gray-500 bg-gray-200'} px-3 py-1 rounded-full`}>
                           {new Date(comment.createdAt).toLocaleDateString('en-US', {
