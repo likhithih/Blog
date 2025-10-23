@@ -14,7 +14,6 @@ function BlogPost() {
   const [newComment, setNewComment] = useState('');
   const [commentLoading, setCommentLoading] = useState(false);
 
-
   const [user, setUser] = useState(null);
 
   const handleCommentSubmit = async (e) => {
@@ -43,10 +42,7 @@ function BlogPost() {
     }
   };
 
-
-
   useEffect(() => {
-    // Get user data from localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -77,8 +73,6 @@ function BlogPost() {
     fetchBlog();
     fetchComments();
   }, [id]);
-
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -134,29 +128,40 @@ function BlogPost() {
               {blog.title}
             </h1>
 
-            {/* Author and Meta */}
-            <div className="flex items-center justify-center gap-6 text-white/80">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-semibold text-sm">
-                    {(blog.author || 'Anonymous').charAt(0).toUpperCase()}
-                  </span>
+            {/* Author and Meta Section */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-white/90 bg-black/30 backdrop-blur-md rounded-xl p-4 md:p-6 shadow-md md:shadow-lg">
+              {/* Author Info */}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                  {(blog.author || 'A').charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <p className="font-medium">Written by</p>
-                  <p className="text-sm text-white/60">{blog.author || 'Anonymous'}</p>
+                  <p className="text-sm md:text-base font-medium">Written by</p>
+                  <p className="text-sm md:text-base text-white/80">{blog.author || 'Anonymous'}</p>
                 </div>
               </div>
 
-              <div className="w-px h-8 bg-white/30"></div>
+              {/* Divider */}
+              <div className="hidden md:block w-px h-10 bg-white/40"></div>
 
-              <div className="text-sm">
-                <p className="font-medium">Published</p>
-                <p className="text-white/60">{new Date(blog.createdAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}</p>
+              {/* Published Date */}
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 text-white/70"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p className="text-white/80">
+                  {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
               </div>
             </div>
           </div>
@@ -203,6 +208,7 @@ function BlogPost() {
             <div className="flex items-center gap-4">
               <span className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} font-medium`}>Share this article:</span>
               <div className="flex gap-3">
+                {/* Social Buttons */}
                 <button className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition-colors duration-200">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
