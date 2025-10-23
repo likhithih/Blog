@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
+import signup from '../assets/signup.png';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -68,7 +69,7 @@ export default function Signup() {
             <div className="w-full hidden md:flex md:items-center md:justify-center relative">
                 <img
                     className="h-145 w-full object-contain relative left-3 top-1"
-                    src="https://cdn.pixabay.com/photo/2020/04/03/06/35/work-4997565_1280.png"
+                    src={signup}
                     alt="leftSideImage"
                 />
             </div>
