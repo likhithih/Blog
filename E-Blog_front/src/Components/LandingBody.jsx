@@ -76,8 +76,8 @@ const featuresSection2 = [
 
 const LandingBody = () => {
   const { darkMode } = useTheme();
-  const imagesSection1 = ["/bloger.jpg", "/Blog creating Back Cover.jpg"];
-  const imagesSection2 = ["/Meta Verse back cover.jpg", "/social.jpg"];
+  const imagesSection1 = ["/bloger.jpg", "/Blog creating Back Cover.jpg","/Landing_Page_Poster/Girl-Work-Cover.jpg"];
+  const imagesSection2 = ["/Meta Verse back cover.jpg", "/social.jpg","/Landing_Page_Poster/Blog-BG_Cover.jpg"];
 
   const [currentImage1, setCurrentImage1] = useState(0);
   const [currentImage2, setCurrentImage2] = useState(0);

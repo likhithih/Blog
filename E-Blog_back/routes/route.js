@@ -3,6 +3,7 @@ import { signup, login, getAllUsers, deleteUser } from "../controllers/authContr
 import { createBlog, getBlogs, getBlogById, deleteBlog, updateBlog, upload } from "../controllers/blogController.js";
 import { createComment, getCommentsByBlog } from "../controllers/commentController.js";
 import authenticate from '../middleware/authenticate.js';
+import authorizeAdmin from '../middleware/authorizeAdmin.js';
 
 const router = express.Router();
 
@@ -13,8 +14,8 @@ router.post('/signup', signup);
 router.post('/login',login);
 
 // Get all users (admin only)
-router.get('/users', authenticate, getAllUsers);
-router.delete('/users/:id', authenticate, deleteUser);
+router.get('/users', authenticate, authorizeAdmin, getAllUsers);
+router.delete('/users/:id', authenticate, authorizeAdmin, deleteUser);
 
 
 // Blog routes

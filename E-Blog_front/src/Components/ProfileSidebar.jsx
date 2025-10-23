@@ -38,7 +38,7 @@ const ProfileSidebar = ({ isOpen, setIsOpen, user, handleLogout }) => {
                     </button>
                 </div>
 
-                <div className="p-6 text-center ">
+                <div className="p-6 text-center bg-black/80 backdrop-blur-500">
                     <img
                         src='https://avatars.githubusercontent.com/u/124576166?v=4'
                         alt="Profile"
