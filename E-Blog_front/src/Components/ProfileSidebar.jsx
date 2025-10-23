@@ -36,7 +36,7 @@ const ProfileSidebar = ({ isOpen, setIsOpen, user, handleLogout }) => {
                 </div>
 
                 {/* Profile Content */}
-                <div className="p-6 flex flex-col items-center">
+                <div className="p-6 flex flex-col items-center bg-black/70">
                     {/* Profile Image */}
                     <div className="relative mb-6">
                         <img
