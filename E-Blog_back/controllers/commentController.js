@@ -34,3 +34,24 @@ export const getCommentsByBlog = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+export const getAllComments = async (req, res) => {
+    try {
+        const comments = await Comment.find().populate('author', 'username email name').populate('blog', 'title').sort({ createdAt: -1 });
+        res.status(200).json({ comments });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const deleteComment = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Comment.findByIdAndDelete(id);
+        res.status(200).json({ message: 'Comment deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};

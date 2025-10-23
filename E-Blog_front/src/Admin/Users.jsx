@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import axios from 'axios'
-import { FaUser, FaEnvelope, FaCalendarAlt, FaCrown, FaTrash, FaTimes, FaSearch, FaTable, FaTh, FaEdit, FaCheck, FaTimes as FaTimesX, FaChevronUp, FaChevronDown, FaMoon, FaSun, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import { FaUser, FaEnvelope, FaCalendarAlt, FaCrown, FaTrash, FaTimes, FaSearch, FaTable, FaTh, FaEdit, FaCheck, FaTimes as FaTimesX, FaChevronUp, FaChevronDown, FaCheckCircle, FaTimesCircle, FaSun, FaMoon } from 'react-icons/fa'
+import { useTheme } from '../contexts/ThemeContext'
 
 function Users() {
+  const { darkMode, toggleDarkMode } = useTheme()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -12,7 +14,6 @@ function Users() {
   const [deleteLoading, setDeleteLoading] = useState(false)
 
   // New state for enhanced UI
-  const [darkMode, setDarkMode] = useState(false)
   const [viewMode, setViewMode] = useState('grid') // 'grid' or 'table'
   const [searchTerm, setSearchTerm] = useState('')
   const [sortConfig, setSortConfig] = useState({ key: 'username', direction: 'asc' })
@@ -88,8 +89,7 @@ function Users() {
     setSelectedUser(null)
   }
 
-  // New functions for enhanced UI
-  const toggleDarkMode = () => setDarkMode(!darkMode)
+
 
   const handleSort = (key) => {
     let direction = 'asc'
@@ -200,7 +200,7 @@ function Users() {
   if (loading) {
     return (
       <div className="ml-0 md:ml-64 bg-gray-50 min-h-screen pt-16 md:pt-0">
-        <Sidebar />
+        <Sidebar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <div className="p-6">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -213,7 +213,7 @@ function Users() {
   if (error) {
     return (
       <div className="ml-0 md:ml-64 bg-gray-50 min-h-screen">
-        <Sidebar />
+        <Sidebar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <div className="p-6">
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <p className="text-red-800">{error}</p>
@@ -225,7 +225,7 @@ function Users() {
 
   return (
     <div className={`ml-0 md:ml-64 min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
-      <Sidebar darkMode={darkMode} />
+      <Sidebar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
       {/* Header */}
       <div className={`shadow-sm border-b transition-colors duration-300 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
@@ -235,27 +235,19 @@ function Users() {
               <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>User Management</h1>
               <p className={`text-sm mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Manage and view all registered users</p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex space-x-2">
               <button
-                onClick={toggleDarkMode}
-                className={`p-2 rounded-lg transition-colors duration-200 ${darkMode ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400' : 'bg-gray-200 hover:bg-gray-300 text-gray-600'}`}
+                onClick={() => setViewMode('grid')}
+                className={`p-2 rounded-lg transition-colors duration-200 ${viewMode === 'grid' ? (darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white') : (darkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-200 hover:bg-gray-300 text-gray-600')}`}
               >
-                {darkMode ? <FaSun /> : <FaMoon />}
+                <FaTh />
               </button>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg transition-colors duration-200 ${viewMode === 'grid' ? (darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white') : (darkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-200 hover:bg-gray-300 text-gray-600')}`}
-                >
-                  <FaTh />
-                </button>
-                <button
-                  onClick={() => setViewMode('table')}
-                  className={`p-2 rounded-lg transition-colors duration-200 ${viewMode === 'table' ? (darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white') : (darkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-200 hover:bg-gray-300 text-gray-600')}`}
-                >
-                  <FaTable />
-                </button>
-              </div>
+              <button
+                onClick={() => setViewMode('table')}
+                className={`p-2 rounded-lg transition-colors duration-200 ${viewMode === 'table' ? (darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white') : (darkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-200 hover:bg-gray-300 text-gray-600')}`}
+              >
+                <FaTable />
+              </button>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import express from "express";
 import { signup, login, getAllUsers, deleteUser } from "../controllers/authController.js";
 import { createBlog, getBlogs, getBlogById, deleteBlog, updateBlog, upload } from "../controllers/blogController.js";
-import { createComment, getCommentsByBlog } from "../controllers/commentController.js";
+import { createComment, getCommentsByBlog, getAllComments, deleteComment } from "../controllers/commentController.js";
 import authenticate from '../middleware/authenticate.js';
 
 const router = express.Router();
@@ -24,6 +24,8 @@ router.route('/blogs/:id').get(getBlogById).delete(authenticate, deleteBlog).put
 
 // Comment routes
 router.route('/comments').post(createComment);
+router.get('/comments/all', authenticate, getAllComments);
 router.route('/comments/:blogId').get(getCommentsByBlog);
+router.delete('/comments/:id', authenticate, deleteComment);
 
 export default router;

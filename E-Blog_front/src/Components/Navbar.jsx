@@ -1,4 +1,5 @@
 import logo from '../assets/Logos/E-Blog.png';
+import logoLight from '../assets/Logos/lightTheme.png';
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ProfileSidebar from './ProfileSidebar';
@@ -33,7 +34,7 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <NavLink to="/home" className="flex items-center group">
               <img
-                src={logo}
+                src={darkMode ? logo : logoLight}
                 alt="E Blog"
                 className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
               />

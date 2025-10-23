@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 const Footer = () => {
   const { darkMode } = useTheme();
   return (
-    <footer className="bg-gray-900 text-white pt-12 pb-8">
+    <footer className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'} pt-12 pb-8 transition-colors duration-300`}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
@@ -27,7 +27,7 @@ const Footer = () => {
               <span><img src={logo} alt=""  width='40px'/></span>
               <span className="ml-2 text-xl font-bold">E-Blogs</span>
             </div>
-            <p className="text-gray-400">
+            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               Exploring the world of web development, design, and digital innovation
             </p>
             <div className="flex space-x-4">
@@ -182,7 +182,7 @@ const Footer = () => {
                   <li key={idx}>
                     <a
                       href="#"
-                      className="text-gray-400 hover:text-white transition"
+                      className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition`}
                     >
                       {item}
                     </a>
@@ -206,7 +206,7 @@ const Footer = () => {
                 <li key={idx}>
                   <a
                     href="#"
-                    className="text-gray-400 hover:text-white transition"
+                    className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition`}
                   >
                     {service}
                   </a>
@@ -218,14 +218,14 @@ const Footer = () => {
           {/* Contact */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Contact Us</h3>
-            <address className="not-italic text-gray-400">
+            <address className={`not-italic ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               <p>e Business Ave</p>
               <p>Bengaluru, KA 560072</p>
               <p className="mt-2">
                 Email:{" "}
                 <a
                   href="mailto:info@company.com"
-                  className="hover:text-white transition"
+                  className={`${darkMode ? 'hover:text-white' : 'hover:text-gray-900'} transition`}
                 >
                   raj@company.com
                 </a>
@@ -234,7 +234,7 @@ const Footer = () => {
                 Phone:{" "}
                 <a
                   href="tel:+91123456789"
-                  className="hover:text-white transition"
+                  className={`${darkMode ? 'hover:text-white' : 'hover:text-gray-900'} transition`}
                 >
                   +91 9874561231
                 </a>
@@ -244,8 +244,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
+        <div className={`border-t ${darkMode ? 'border-gray-800' : 'border-gray-300'} pt-6 flex flex-col md:flex-row justify-between items-center`}>
+          <p className={`${darkMode ? 'text-gray-500' : 'text-gray-600'} text-sm mb-4 md:mb-0`}>
             © 2025 Company. All rights reserved.
           </p>
           <div className="flex space-x-6">
@@ -254,7 +254,7 @@ const Footer = () => {
                 <a
                   key={idx}
                   href="#"
-                  className="text-gray-500 hover:text-white text-sm transition"
+                  className={`${darkMode ? 'text-gray-500 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-sm transition`}
                 >
                   {item}
                 </a>

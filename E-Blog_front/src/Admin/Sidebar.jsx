@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FaMoon, FaSun, FaUser } from "react-icons/fa";
 
-export default function Sidebar({ darkMode = false }) {
+export default function Sidebar({ darkMode = false, toggleDarkMode }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
@@ -40,33 +41,74 @@ export default function Sidebar({ darkMode = false }) {
         }`}
       >
         <div>
-          <h2 className={`text-2xl font-bold mb-6 pt-13 ${darkMode ? 'text-blue-400' : 'text-violet-700'}`}>
-           <Link to="/admin">Admin Dashboard</Link>
+          <h2 className={`text-2xl font-bold mb-6 pt-13 pb-4 border-b ${darkMode ? 'text-blue-400 border-gray-600' : 'text-violet-700 border-gray-300'}`}>
+           <Link to="/admin" className="flex flex-col items-center gap-1">
+             <FaUser className="text-3xl" />
+             Admin Dashboard
+           </Link>
             </h2>
 
           <nav className="flex flex-col gap-4">
-            <Link
+            <NavLink
               to="/admin/users"
-              className={`text-lg font-medium transition ${darkMode ? 'text-gray-300 hover:text-blue-400' : 'text-gray-700 hover:text-violet-600'}`}
+              className={({ isActive }) =>
+                `text-lg font-medium transition ${
+                  isActive
+                    ? darkMode
+                      ? 'text-blue-400 bg-gray-700'
+                      : 'text-violet-600 bg-gray-200'
+                    : darkMode
+                    ? 'text-gray-300 hover:text-blue-400'
+                    : 'text-gray-700 hover:text-violet-600'
+                } px-3 py-2 rounded-lg`
+              }
             >
               USERS
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/admin/blogs"
-              className={`text-lg font-medium transition ${darkMode ? 'text-gray-300 hover:text-blue-400' : 'text-gray-700 hover:text-violet-600'}`}
+              className={({ isActive }) =>
+                `text-lg font-medium transition ${
+                  isActive
+                    ? darkMode
+                      ? 'text-blue-400 bg-gray-700'
+                      : 'text-violet-600 bg-gray-200'
+                    : darkMode
+                    ? 'text-gray-300 hover:text-blue-400'
+                    : 'text-gray-700 hover:text-violet-600'
+                } px-3 py-2 rounded-lg`
+              }
             >
               BLOGS
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/admin/comments"
-              className={`text-lg font-medium transition ${darkMode ? 'text-gray-300 hover:text-blue-400' : 'text-gray-700 hover:text-violet-600'}`}
+              className={({ isActive }) =>
+                `text-lg font-medium transition ${
+                  isActive
+                    ? darkMode
+                      ? 'text-blue-400 bg-gray-700'
+                      : 'text-violet-600 bg-gray-200'
+                    : darkMode
+                    ? 'text-gray-300 hover:text-blue-400'
+                    : 'text-gray-700 hover:text-violet-600'
+                } px-3 py-2 rounded-lg`
+              }
             >
               COMMENTS
-            </Link>
+            </NavLink>
           </nav>
         </div>
 
-        <div>
+        <div className="flex flex-col gap-4">
+          <button
+            onClick={toggleDarkMode}
+            className={`w-full py-2 rounded-lg transition flex items-center justify-center ${darkMode ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400' : 'bg-gray-200 hover:bg-gray-300 text-gray-600'}`}
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
           <Link to='/login'><button className={`w-full py-2 rounded-lg transition ${darkMode ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-violet-600 hover:bg-violet-700 text-white'}`}>
             LOGOUT
           </button></Link>

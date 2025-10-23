@@ -235,9 +235,9 @@ function BlogPost() {
 
       {/* Comments Section */}
       <div className="w-full mt-12">
-        <div className="bg-gray-900 rounded-2xl shadow-lg p-8 border border-gray-700">
+        <div className={`${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} rounded-2xl shadow-lg p-8 border`}>
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-white flex items-center gap-3">
+            <h2 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center gap-3`}>
               <span className="text-indigo-400">💬</span>
               Comments ({comments.length})
             </h2>
@@ -245,17 +245,17 @@ function BlogPost() {
 
           {/* Add Comment Form */}
           <form onSubmit={handleCommentSubmit} className="mb-10">
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-600">
+            <div className={`${darkMode ? 'bg-gray-800 border-gray-600' : 'bg-gray-50 border-gray-300'} rounded-xl p-6 border`}>
               <div className="flex gap-4 items-end">
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
                     Share your thoughts
                   </label>
                   <textarea
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Write a thoughtful comment..."
-                    className="w-full p-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition-all duration-200 bg-gray-700 text-white placeholder-gray-400"
+                    className={`w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition-all duration-200 ${darkMode ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'}`}
                     rows="4"
                     required
                   />
@@ -283,21 +283,21 @@ function BlogPost() {
             {comments.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">💭</div>
-                <p className="text-gray-400 text-lg">No comments yet. Be the first to share your thoughts!</p>
+                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-lg`}>No comments yet. Be the first to share your thoughts!</p>
               </div>
             ) : (
               comments.map((comment) => (
-                <div key={comment._id} className="bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-600 hover:shadow-md transition-all duration-200">
+                <div key={comment._id} className={`${darkMode ? 'bg-gradient-to-r from-gray-800 to-gray-700 border-gray-600' : 'bg-gradient-to-r from-gray-50 to-gray-100 border-gray-300'} p-6 rounded-xl border hover:shadow-md transition-all duration-200`}>
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
                       {comment.author?.name?.charAt(0)?.toUpperCase() || 'A'}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <p className="font-semibold text-white text-lg">
+                        <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} text-lg`}>
                           {comment.author?.name || 'Anonymous'}
                         </p>
-                        <span className="text-sm text-gray-400 bg-gray-600 px-3 py-1 rounded-full">
+                        <span className={`text-sm ${darkMode ? 'text-gray-400 bg-gray-600' : 'text-gray-500 bg-gray-200'} px-3 py-1 rounded-full`}>
                           {new Date(comment.createdAt).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'short',
@@ -307,8 +307,8 @@ function BlogPost() {
                           })}
                         </span>
                       </div>
-                      <div className="bg-gray-900 p-4 rounded-lg border border-gray-600 shadow-sm">
-                        <p className="text-gray-200 leading-relaxed">{comment.content}</p>
+                      <div className={`${darkMode ? 'bg-gray-900 border-gray-600' : 'bg-white border-gray-300'} p-4 rounded-lg border shadow-sm`}>
+                        <p className={`${darkMode ? 'text-gray-200' : 'text-gray-800'} leading-relaxed`}>{comment.content}</p>
                       </div>
                     </div>
                   </div>
