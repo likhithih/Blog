@@ -31,6 +31,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user',
         enum: ['user', 'admin']
+    },
+    jobTitle: {
+        type: String,
+        trim: true,
+        maxlength: 100,
+        default: ''
+    },
+    profilePic: {
+        type: String,
+        default: ''
     }
 }, { timestamps: true });
 

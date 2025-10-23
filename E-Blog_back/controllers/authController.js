@@ -1,6 +1,40 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
+// Configure multer for profile picture uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = 'uploads/profiles';
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, 'profile-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: (req, file, cb) => {
+        const filetypes = /jpeg|jpg|png|gif/;
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = filetypes.test(file.mimetype);
+
+        if (mimetype && extname) {
+            return cb(null, true);
+        } else {
+            cb(new Error('Only image files are allowed!'));
+        }
+    }
+});
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -65,7 +99,7 @@ export const login = async (req, res) => {
         // Special case for admin login
         if (email === 'admin@gmail.com' && password === 'admin') {
             // Generate JWT token for admin
-            const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '1h' });
+            const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '7d' });
 
             return res.json({
                 message: 'Login successful',
@@ -125,6 +159,69 @@ export const deleteUser = async (req, res) => {
         }
 
         res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const updateProfile = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { username, email, jobTitle } = req.body;
+
+        // Check if user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if username or email is already taken by another user
+        if (username && username !== user.username) {
+            const existingUsername = await User.findOne({ username });
+            if (existingUsername) {
+                return res.status(400).json({ message: 'Username already taken' });
+            }
+        }
+
+        if (email && email !== user.email) {
+            const existingEmail = await User.findOne({ email });
+            if (existingEmail) {
+                return res.status(400).json({ message: 'Email already taken' });
+            }
+        }
+
+        // Handle profile picture upload
+        let profilePicUrl = user.profilePic;
+        if (req.file) {
+            // Delete old profile picture if it exists
+            if (user.profilePic && user.profilePic.startsWith('/uploads/profiles/')) {
+                const oldPath = path.join(process.cwd(), user.profilePic);
+                if (fs.existsSync(oldPath)) {
+                    fs.unlinkSync(oldPath);
+                }
+            }
+
+            // Set new profile picture path
+            profilePicUrl = `/uploads/profiles/${req.file.filename}`;
+        }
+
+        // Update user
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+                ...(username && { username }),
+                ...(email && { email }),
+                ...(jobTitle !== undefined && { jobTitle }),
+                ...(profilePicUrl && { profilePic: profilePicUrl })
+            },
+            { new: true }
+        ).select('-password -confirmPassword');
+
+        res.json({
+            message: 'Profile updated successfully',
+            user: updatedUser
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

@@ -46,7 +46,7 @@ const Comments = () => {
 
   const filteredComments = comments.filter(comment =>
     (comment.content && comment.content.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (comment.author && comment.author.name && comment.author.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (comment.author && comment.author.username && comment.author.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (comment.blog && comment.blog.title && comment.blog.title.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
@@ -162,7 +162,7 @@ const Comments = () => {
                         <div className="bg-gradient-to-br from-green-500 to-teal-600 p-1 rounded-full mr-2">
                           <FaUser className="text-white text-xs" />
                         </div>
-                        {comment.author || 'Anonymous'}
+                        {comment.author?.username || 'Anonymous'}
                       </div>
                     </td>
                     <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>

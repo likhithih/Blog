@@ -12,6 +12,7 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import About from "./Pages/About";
+import EditProfile from "./Pages/EditProfile";
 import PageNotFound from "./Pages/PageNotFound";
 import Users from "./Admin/Users";
 import Blog from "./Admin/Blog";
@@ -23,7 +24,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/blog" element={<BlogSection />} />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/about" element={<About status={isLoggedIn} toggle={setIsLoggedIn} />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
 
           {/* Auth Pages */}
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />

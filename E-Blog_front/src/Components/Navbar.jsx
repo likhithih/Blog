@@ -14,15 +14,29 @@ const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      } else {
+        setUser(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   const handleLogout = () => {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     setUser(null);
     navigate('/');
   };
@@ -122,7 +136,7 @@ const Navbar = () => {
             {user && (
               <div className="relative">
                 <img
-                  src="https://avatars.githubusercontent.com/u/124576166?v=4"
+                  src={user?.profilePic || "https://avatars.githubusercontent.com/u/124576166?v=4"}
                   alt="Profile"
                   className="h-10 w-10 rounded-full cursor-pointer hover:ring-2 hover:ring-indigo-500 transition-all duration-300 hover:scale-105 shadow-lg"
                   onClick={() => setIsOpen(!isOpen)}

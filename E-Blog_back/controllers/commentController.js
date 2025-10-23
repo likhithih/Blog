@@ -4,7 +4,7 @@ import Blog from '../models/Blog.js';
 export const createComment = async (req, res) => {
     try {
         const { content, blogId } = req.body;
-        const author = '68f210120e6b3f1f77866614'; // Hardcoded for testing
+        const author = req.user.id; // Use authenticated user ID
 
         const newComment = new Comment({
             content,
@@ -27,7 +27,7 @@ export const createComment = async (req, res) => {
 export const getCommentsByBlog = async (req, res) => {
     try {
         const { blogId } = req.params;
-        const comments = await Comment.find({ blog: blogId }).populate('author', 'username email name').sort({ createdAt: -1 });
+        const comments = await Comment.find({ blog: blogId }).populate('author', 'username email').sort({ createdAt: -1 });
         res.status(200).json(comments);
     } catch (error) {
         console.error(error);
@@ -37,7 +37,7 @@ export const getCommentsByBlog = async (req, res) => {
 
 export const getAllComments = async (req, res) => {
     try {
-        const comments = await Comment.find().populate('author', 'username email name').populate('blog', 'title').sort({ createdAt: -1 });
+        const comments = await Comment.find().populate('author', 'username email').populate('blog', 'title').sort({ createdAt: -1 });
         res.status(200).json({ comments });
     } catch (error) {
         console.error(error);
