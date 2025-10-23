@@ -137,7 +137,7 @@ function BlogPost() {
                 </div>
                 <div>
                   <p className="text-sm md:text-base font-medium">Written by</p>
-                  <p className="text-sm md:text-base text-white/80">{blog.author || 'bro'}</p>
+                  <p className="text-sm md:text-base text-white/80">{blog.author || 'Annonymous'}</p>
                 </div>
               </div>
 
