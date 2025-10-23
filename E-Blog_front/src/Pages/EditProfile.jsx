@@ -141,7 +141,7 @@ const EditProfile = () => {
                         <div className="flex flex-col items-center mb-8">
                             <div className="relative mb-4">
                                 <img
-                                    src={previewImage}
+                                    src={previewImage || 'https://avatars.githubusercontent.com/u/124576166?v=4'}
                                     alt="Profile"
                                     className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-xl object-cover"
                                 />
