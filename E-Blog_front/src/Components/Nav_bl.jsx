@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/Logos/E-Blog.png";
-import logoLight from "../assets/Logos/lightTheme.png";
+import logoLight from "../assets/Logos/E-Blog-black-logo.png";
 import { useTheme } from "../contexts/ThemeContext";
 import { FaMoon, FaSun } from "react-icons/fa";
 
