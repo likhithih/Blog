@@ -14,7 +14,7 @@ function About({ status, toggle }) {
 
   return (
     <>
-      {status ? <Navbar /> : <Nav_bl />}
+      <Navbar />
       <div className="pt-40 mb-20 ">
         <section className="flex flex-col md:flex-row items-center justify-center gap-10 max-md:px-4 mb-16">
           <div className="relative shadow-2xl shadow-indigo-600/40 rounded-2xl overflow-hidden shrink-0">
