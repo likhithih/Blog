@@ -1,5 +1,5 @@
 import logo from '../assets/Logos/E-Blog.png';
-import logoLight from '../assets/Logos/lightTheme.png';
+import logoLight from '../assets/Logos/E-Blog-black-logo.png';
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ProfileSidebar from './ProfileSidebar';
