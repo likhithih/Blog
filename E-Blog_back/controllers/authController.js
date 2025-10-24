@@ -165,6 +165,8 @@ export const deleteUser = async (req, res) => {
     }
 };
 
+
+
 export const updateProfile = async (req, res) => {
     try {
         const userId = req.user.id;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
+import { auth, provider, signInWithPopup } from "../firebaseConfig"; // ✅ Firebase imports
 
 export default function Login() {
     const [formData, setFormData] = useState({
@@ -27,10 +28,8 @@ export default function Login() {
 
             if (response.status === 200) {
                 toast.success('Login successful!');
-                // Store user data and token in localStorage
                 localStorage.setItem('user', JSON.stringify(response.data.user));
                 localStorage.setItem('token', response.data.token);
-                // Redirect to admin if role is admin, else home
                 const userRole = response.data.user.role;
                 const redirectPath = userRole === 'admin' ? '/admin' : '/home';
                 setTimeout(() => { navigate(redirectPath) }, 2000)
@@ -40,11 +39,25 @@ export default function Login() {
                 const errorMessage = error.response.data.message || 'Login failed';
                 toast.error(errorMessage);
             } else {
-                const networkError = 'Network error. Please try again.';
-                toast.error(networkError);
+                toast.error('Network error. Please try again.');
             }
         } finally {
             setLoading(false);
+        }
+    };
+
+    // ✅ Google Sign-In Handler
+    const handleGoogleSignIn = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            toast.success(`Welcome ${user.displayName}!`);
+            localStorage.setItem('user', JSON.stringify(user));
+            // Redirect to home page (or modify as needed)
+            navigate('/home');
+        } catch (error) {
+            console.error(error);
+            toast.error("Google Sign-in failed. Please try again.");
         }
     };
 
@@ -60,7 +73,12 @@ export default function Login() {
                     <h2 className="text-4xl text-gray-900 font-medium">Login </h2>
                     <p className="text-sm text-gray-500/90 mt-3">Welcome back! Please Login to continue</p>
 
-                    <button type="button" className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full">
+                    {/* ✅ Google Auth Button */}
+                    <button
+                        type="button"
+                        onClick={handleGoogleSignIn}
+                        className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
+                    >
                         <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="googleLogo" />
                     </button>
 
@@ -121,4 +139,4 @@ export default function Login() {
             </div>
         </div>
     );
-};
+}
