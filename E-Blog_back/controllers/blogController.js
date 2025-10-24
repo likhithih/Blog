@@ -65,7 +65,7 @@ export const createBlog = async (req, res) => {
 export const getBlogs = async (req, res) => {
     try {
         const blogs = await Blog.find().sort({ createdAt: -1 });
-        res.status(200).json(blogs);
+        res.status(200).json({ blogs, totalBlogs: blogs.length });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

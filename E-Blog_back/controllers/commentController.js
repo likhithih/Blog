@@ -41,7 +41,7 @@ export const getCommentsByBlog = async (req, res) => {
 export const getAllComments = async (req, res) => {
     try {
         const comments = await Comment.find().populate('author', 'username email').populate('blog', 'title').sort({ createdAt: -1 });
-        res.status(200).json({ comments });
+        res.status(200).json({ comments, totalComments: comments.length });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

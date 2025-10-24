@@ -41,7 +41,8 @@ export const getAllUsers = async (req, res) => {
         const users = await User.find({}, '-password -confirmPassword').sort({ createdAt: -1 });
         res.json({
             message: 'Users retrieved successfully',
-            users
+            users,
+            totalUsers: users.length
         });
     } catch (error) {
         console.error(error);
@@ -166,6 +167,70 @@ export const deleteUser = async (req, res) => {
 };
 
 
+
+export const googleSignIn = async (req, res) => {
+    try {
+        const { googleId, email, displayName, photoURL } = req.body;
+
+        // Check if user already exists with this Google ID
+        let user = await User.findOne({ googleId });
+
+        if (!user) {
+            // Check if user exists with this email
+            const existingUser = await User.findOne({ email });
+
+            if (existingUser) {
+                // Link Google account to existing user
+                existingUser.googleId = googleId;
+                existingUser.profilePic = photoURL || existingUser.profilePic;
+                await existingUser.save();
+                user = existingUser;
+            } else {
+                // Create new user
+                let username = displayName ? displayName.replace(/\s+/g, '').toLowerCase() : email.split('@')[0];
+                let uniqueUsername = username;
+                let counter = 1;
+
+                // Ensure username is unique
+                while (await User.findOne({ username: uniqueUsername })) {
+                    uniqueUsername = `${username}${counter}`;
+                    counter++;
+                }
+
+                user = new User({
+                    username: uniqueUsername,
+                    email,
+                    googleId,
+                    profilePic: photoURL || ''
+                });
+
+                await user.save();
+            }
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role },
+            process.env.JWT_SECRET || 'your-secret-key',
+            { expiresIn: '7d' }
+        );
+
+        res.json({
+            message: 'Google sign-in successful',
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                profilePic: user.profilePic
+            },
+            token
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error during Google sign-in' });
+    }
+};
 
 export const updateProfile = async (req, res) => {
     try {

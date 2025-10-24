@@ -1,5 +1,5 @@
 import express from "express";
-import { signup, login, getAllUsers, deleteUser, updateProfile } from "../controllers/authController.js";
+import { signup, login, getAllUsers, deleteUser, updateProfile, googleSignIn } from "../controllers/authController.js";
 import { createBlog, getBlogs, getBlogById, deleteBlog, updateBlog, upload } from "../controllers/blogController.js";
 import { createComment, getCommentsByBlog, getAllComments, deleteComment } from "../controllers/commentController.js";
 import authenticate from '../middleware/authenticate.js';
@@ -46,6 +46,9 @@ router.post('/signup', signup);
 
 // Login route
 router.post('/login',login);
+
+// Google Sign-In route
+router.post('/google-signin', googleSignIn);
 
 // Get all users (admin only)
 router.get('/users', authenticate, authorizeAdmin, getAllUsers);

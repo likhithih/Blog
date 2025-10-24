@@ -1,11 +1,46 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import { Link } from 'react-router-dom'
 import { FaUsers, FaBlog, FaComments, FaChartLine } from 'react-icons/fa'
 import { useTheme } from '../contexts/ThemeContext'
+import axios from 'axios'
 
 function Admin() {
   const { darkMode, toggleDarkMode } = useTheme()
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalBlogs: 0,
+    totalComments: 0
+  })
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem('token')
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+
+        const [usersRes, blogsRes, commentsRes] = await Promise.all([
+          axios.get('http://localhost:4000/users', config),
+          axios.get('http://localhost:4000/blogs'),
+          axios.get('http://localhost:4000/comments/all', config)
+        ])
+
+        setStats({
+          totalUsers: usersRes.data.totalUsers,
+          totalBlogs: blogsRes.data.totalBlogs,
+          totalComments: commentsRes.data.totalComments
+        })
+      } catch (error) {
+        console.error('Error fetching stats:', error)
+      }
+    }
+
+    fetchStats()
+  }, [])
 
   return (
     <div className={`ml-0 md:ml-64 min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
@@ -27,7 +62,7 @@ function Admin() {
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Total Users</p>
-                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>1,234</p>
+                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{stats.totalUsers}</p>
               </div>
               <div className={`p-3 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-blue-100'}`}>
                 <FaUsers className={`text-xl ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
@@ -44,7 +79,7 @@ function Admin() {
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Total Blogs</p>
-                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>567</p>
+                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{stats.totalBlogs}</p>
               </div>
               <div className={`p-3 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-green-100'}`}>
                 <FaBlog className={`text-xl ${darkMode ? 'text-green-400' : 'text-green-600'}`} />
@@ -61,7 +96,7 @@ function Admin() {
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Total Comments</p>
-                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>2,891</p>
+                <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{stats.totalComments}</p>
               </div>
               <div className={`p-3 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-purple-100'}`}>
                 <FaComments className={`text-xl ${darkMode ? 'text-purple-400' : 'text-purple-600'}`} />
