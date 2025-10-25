@@ -6,14 +6,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+.env
 
 node_modules
 dist
 dist-ssr
 *.local
-src/App.jsx
-App.jsx
+firebaseConfig.js
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -24,5 +23,5 @@ App.jsx
 *.njsproj
 *.sln
 *.sw?
-src/App.jsx
+
 
