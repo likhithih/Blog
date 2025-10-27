@@ -13,7 +13,7 @@ export default function Card() {
         const fetchBlogs = async () => {
             try {
                 const response = await axios.get("http://localhost:4000/blogs");
-                const formattedBlogs = response.data.map((blog) => ({
+                const formattedBlogs = response.data.blogs.map((blog) => ({
                     id: blog._id,
                     image: blog.image,
                     title: blog.title,
